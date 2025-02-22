@@ -22,7 +22,7 @@
     <archunit-junit5.version>1.4.0</archunit-junit5.version>
     <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 
-    <compiler-plugin.version>3.13.0</compiler-plugin.version>
+    <compiler-plugin.version>3.14.0</compiler-plugin.version>
     <surefire-plugin.version>3.5.2</surefire-plugin.version>
   </properties>
 
