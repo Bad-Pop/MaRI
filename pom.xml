@@ -17,7 +17,7 @@
     <lombok.version>1.18.36</lombok.version>
     <quarkus.platform.version>3.18.3</quarkus.platform.version>
 
-    <assertj-core.version>3.25.3</assertj-core.version>
+    <assertj-core.version>3.27.3</assertj-core.version>
     <assertj-vavr.version>0.4.3</assertj-vavr.version>
     <archunit-junit5.version>1.4.0</archunit-junit5.version>
     <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
