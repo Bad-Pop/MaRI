@@ -35,6 +35,7 @@ import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_ONLY;
 @ToString(callSuper = true)
 @NamedQueries({
         @NamedQuery(name = "FavoriteAdEntity.findAll", query = "from FavoriteAdEntity"),
+        @NamedQuery(name = "FavoriteAdEntity.deleteAll", query = "delete from FavoriteAdEntity"),
 })
 public class FavoriteAdEntity extends MariEntity<FavoriteAdEntity, FavoriteAd> {
 
@@ -96,7 +97,7 @@ public class FavoriteAdEntity extends MariEntity<FavoriteAdEntity, FavoriteAd> {
 
   public static Either<MariFail, FavoriteAdEntity> findById(String id) {
     //Autre possibilité à prendre en compte pour requêtage par natural id : https://vladmihalcea.com/the-best-way-to-map-a-naturalid-business-key-with-jpa-and-hibernate/
-    val result = Try(() -> (FavoriteAdEntity) FavoriteAdEntity.find("id", id).firstResult())
+    val result = Try(() -> FavoriteAdEntity.find("id", id).<FavoriteAdEntity>firstResult())
             .map(API::Option);
 
     if (result.isFailure()) {
@@ -126,5 +127,23 @@ public class FavoriteAdEntity extends MariEntity<FavoriteAdEntity, FavoriteAd> {
             .<MariFail>mapLeft(t -> new TechnicalFail("An error occurred while trying to retrieve favorite ads of type %s page %s with size of %s".formatted(type, page, size), t))
             .flatMap(query -> newPage(query, page, size, SummaryFavoriteAdEntityProjection.class))
             .peekLeft(fail -> Log.error(fail.asLog()));
+  }
+
+  public static Either<MariFail, Void> deleteById(String id) {
+    return findById(id)
+            .peekLeft(fail -> Log.errorv("Unable to retrieve ad with id {0} for deletion. Detail : {1}", id, fail.asLog()))
+            .flatMap(foundEntity -> Try(() -> run(foundEntity::delete))
+                    .toEither()
+                    .mapLeft(t -> new TechnicalFail("An error occurred while trying to delete favorite ad with id=" + id, t)))
+            .peekLeft(fail -> Log.error(fail.asLog()));
+  }
+
+  public static Either<MariFail, Void> deleteAllAds() {
+    return Try(() -> FavoriteAdEntity.delete("#FavoriteAdEntity.deleteAll"))
+            .toEither()
+            .<MariFail>mapLeft(t -> new TechnicalFail("An error occurred while trying to delete all favorite ads", t))
+            .peekLeft(fail -> Log.error(fail.asLog()))
+            .peek(deletedCount -> Log.infov("Successfully deleted {0} favorite ads", deletedCount))
+            .map(deletedCount -> null);
   }
 }

@@ -53,7 +53,7 @@ public interface FavoriteAdResourceSpec {
                   description = "Internal error",
                   content = {@Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = ApiFailResponse.class))})
   })
-  Response addNewRentalFavoriteAd(@Parameter(description = "L'id de la requête'") @HeaderParam(value = CORRELATION_ID) String correlationId,
+  Response addNewRentalFavoriteAd(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId,
                                   @Valid @NotNull FavoriteAdAdditionRequestBody additionRequest);
 
   @POST
@@ -69,7 +69,7 @@ public interface FavoriteAdResourceSpec {
                   description = "Internal error",
                   content = {@Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = ApiFailResponse.class))})
   })
-  Response addNewSaleFavoriteAd(@Parameter(description = "L'id de la requête'") @HeaderParam(value = CORRELATION_ID) String correlationId,
+  Response addNewSaleFavoriteAd(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId,
                                 @Valid @NotNull FavoriteAdAdditionRequestBody additionRequest);
 
   @GET
@@ -84,7 +84,7 @@ public interface FavoriteAdResourceSpec {
           @APIResponse(responseCode = "500", description = "Internal error",
                   content = {@Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = ApiFailResponse.class))})
   })
-  Response getFavoriteAdById(@Parameter(description = "L'id de la requête'") @HeaderParam(value = CORRELATION_ID) String correlationId,
+  Response getFavoriteAdById(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId,
                              @NotBlank @PathParam(value = "favoriteAdId") String favoriteAdId);
 
   @GET
@@ -97,7 +97,7 @@ public interface FavoriteAdResourceSpec {
           @APIResponse(responseCode = "500", description = "Internal error",
                   content = {@Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = ApiFailResponse.class))})
   })
-  Response getAllRentalFavoriteAds(@Parameter(description = "L'id de la requête'") @HeaderParam(value = CORRELATION_ID) String correlationId,
+  Response getAllRentalFavoriteAds(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId,
                                    @Parameter(description = "The desired page number") @QueryParam("page") Integer page,
                                    @Parameter(description = "The desired page items limit") @QueryParam("limit") Integer limit);
 
@@ -111,7 +111,7 @@ public interface FavoriteAdResourceSpec {
           @APIResponse(responseCode = "500", description = "Internal error",
                   content = {@Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = ApiFailResponse.class))})
   })
-  Response getAllSaleFavoriteAds(@Parameter(description = "L'id de la requête'") @HeaderParam(value = CORRELATION_ID) String correlationId,
+  Response getAllSaleFavoriteAds(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId,
                                  @Parameter(description = "The desired page number") @QueryParam("page") Integer page,
                                  @Parameter(description = "The desired page items limit") @QueryParam("limit") Integer limit);
 
@@ -124,7 +124,7 @@ public interface FavoriteAdResourceSpec {
           @APIResponse(responseCode = "500", description = "Internal error",
                   content = {@Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = ApiFailResponse.class))})
   })
-  Response getAllFavoriteAds(@Parameter(description = "L'id de la requête'") @HeaderParam(value = CORRELATION_ID) String correlationId,
+  Response getAllFavoriteAds(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId,
                              @Parameter(description = "The desired page number") @QueryParam("page") Integer page,
                              @Parameter(description = "The desired page items limit") @QueryParam("limit") Integer limit);
 
@@ -138,7 +138,7 @@ public interface FavoriteAdResourceSpec {
           @APIResponse(responseCode = "500", description = "Internal error",
                   content = {@Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = ApiFailResponse.class))})
   })
-  Response deleteFavoriteAdById(@Parameter(description = "L'id de la requête'") @HeaderParam(value = CORRELATION_ID) String correlationId,
+  Response deleteFavoriteAdById(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId,
                                 @NotBlank @PathParam(value = "favoriteAdId") String favoriteAdId);
 
   @DELETE
@@ -148,5 +148,5 @@ public interface FavoriteAdResourceSpec {
           @APIResponse(responseCode = "500", description = "Internal error",
                   content = {@Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = ApiFailResponse.class))})
   })
-  Response deleteAllFavoriteAds(@Parameter(description = "L'id de la requête'") @HeaderParam(value = CORRELATION_ID) String correlationId);
+  Response deleteAllFavoriteAds(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId);
 }

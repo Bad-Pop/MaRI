@@ -5,7 +5,7 @@ import io.github.badpop.mari.domain.control.MariFail.HomeLoanBorrowingCapacityFa
 import io.github.badpop.mari.domain.model.home.loan.HomeLoanBorrowingCapacity;
 import io.github.badpop.mari.domain.model.home.loan.HomeLoanMonthlyPayment;
 import io.github.badpop.mari.domain.model.home.loan.HomeLoanTermUnit;
-import io.github.badpop.mari.domain.port.api.HomeLoanCalculatorApi;
+import io.github.badpop.mari.domain.port.api.home.loan.HomeLoanCalculatorApi;
 import io.quarkus.logging.Log;
 import io.vavr.control.Either;
 

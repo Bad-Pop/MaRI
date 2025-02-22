@@ -4,7 +4,7 @@ import io.github.badpop.mari.domain.control.MariFail;
 import io.github.badpop.mari.domain.control.Page;
 import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAd;
 import io.github.badpop.mari.domain.model.favorite.ads.SummaryFavoriteAd;
-import io.github.badpop.mari.domain.port.api.FavoriteAdFinderApi;
+import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdFinderApi;
 import io.github.badpop.mari.domain.port.spi.FavoriteAdFinderSpi;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;

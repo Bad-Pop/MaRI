@@ -1,4 +1,4 @@
-package io.github.badpop.mari.domain.port.api;
+package io.github.badpop.mari.domain.port.api.home.loan;
 
 import io.github.badpop.mari.domain.model.home.loan.HomeLoanBorrowingCapacity;
 import io.github.badpop.mari.domain.model.home.loan.HomeLoanTermUnit;

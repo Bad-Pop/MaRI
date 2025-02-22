@@ -1,11 +1,14 @@
 package io.github.badpop.mari.bootstrap;
 
-import io.github.badpop.mari.domain.port.api.FavoriteAdAdditionApi;
-import io.github.badpop.mari.domain.port.api.FavoriteAdFinderApi;
-import io.github.badpop.mari.domain.port.api.HomeLoanCalculatorApi;
+import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdAdditionApi;
+import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdDeleterApi;
+import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdFinderApi;
+import io.github.badpop.mari.domain.port.api.home.loan.HomeLoanCalculatorApi;
 import io.github.badpop.mari.domain.port.spi.FavoriteAdAdditionSpi;
+import io.github.badpop.mari.domain.port.spi.FavoriteAdDeleterSpi;
 import io.github.badpop.mari.domain.port.spi.FavoriteAdFinderSpi;
 import io.github.badpop.mari.domain.service.favorite.ads.FavoriteAdAdditionService;
+import io.github.badpop.mari.domain.service.favorite.ads.FavoriteAdDeleterService;
 import io.github.badpop.mari.domain.service.favorite.ads.FavoriteAdFinderService;
 import io.github.badpop.mari.domain.service.home.loan.HomeLoanCalculatorService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -27,9 +30,15 @@ public class DomainConfiguration {
     return new FavoriteAdAdditionService(favoriteAdAdditionSpi);
   }
 
-  @Singleton
   @Produces
+  @Singleton
   public FavoriteAdFinderApi favoriteAdFinderApi(FavoriteAdFinderSpi favoriteAdFinderSpi) {
     return new FavoriteAdFinderService(favoriteAdFinderSpi);
+  }
+
+  @Produces
+  @Singleton
+  public FavoriteAdDeleterApi favoriteAdDeleterApi(FavoriteAdDeleterSpi favoriteAdDeleterSpi) {
+    return new FavoriteAdDeleterService(favoriteAdDeleterSpi);
   }
 }

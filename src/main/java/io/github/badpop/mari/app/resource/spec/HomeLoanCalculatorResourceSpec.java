@@ -35,11 +35,11 @@ public interface HomeLoanCalculatorResourceSpec {
                     description = "Internal error",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiFailResponse.class))})
     })
-    Response computeMonthlyPayment(@Parameter(description = "L'id de la requête'") @HeaderParam(value = CORRELATION_ID) String correlationId,
-                                   @Parameter(description = "Le montant du capital à emprunter") @QueryParam(value = "borrowedAmount") @NotNull Double borrowedAmount,
-                                   @Parameter(description = "Le taux d'intérêt annuel") @QueryParam(value = "annualInterestRate") @NotNull Double annualInterestRate,
-                                   @Parameter(description = "La période de remboursement") @QueryParam(value = "term") @NotNull Integer term,
-                                   @Parameter(description = "Le adType de période de remboursement") @QueryParam(value = "termUnit") @NotNull HomeLoanTermUnit termUnit);
+    Response computeMonthlyPayment(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId,
+                                   @Parameter(description = "The amount of capital to be borrowed") @QueryParam(value = "borrowedAmount") @NotNull Double borrowedAmount,
+                                   @Parameter(description = "The annual interest rate") @QueryParam(value = "annualInterestRate") @NotNull Double annualInterestRate,
+                                   @Parameter(description = "The repayment period") @QueryParam(value = "term") @NotNull Integer term,
+                                   @Parameter(description = "The type of repayment period") @QueryParam(value = "termUnit") @NotNull HomeLoanTermUnit termUnit);
 
     @GET
     @Path("/borrowing-capacity")
@@ -53,9 +53,9 @@ public interface HomeLoanCalculatorResourceSpec {
                     description = "Internal error",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ApiFailResponse.class))})
     })
-    Response computeBorrowingCapacity(@Parameter(description = "L'id de la requête'") @HeaderParam(value = CORRELATION_ID) String correlationId,
-                                      @Parameter(description = "Le taux d'intérêt annuel") @QueryParam(value = "annualInterestRate") @NotNull Double annualInterestRate,
-                                      @Parameter(description = "La durée de remboursement") @QueryParam(value = "term") @NotNull Integer term,
-                                      @Parameter(description = "Le adType de durée de remboursement") @QueryParam(value = "termUnit") @NotNull HomeLoanTermUnit termUnit,
-                                      @Parameter(description = "Le montant des mensualités") @QueryParam(value = "monthlyPayment") @NotNull Double monthlyPayment);
+    Response computeBorrowingCapacity(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId,
+                                      @Parameter(description = "The annual interest rate") @QueryParam(value = "annualInterestRate") @NotNull Double annualInterestRate,
+                                      @Parameter(description = "The repayment period") @QueryParam(value = "term") @NotNull Integer term,
+                                      @Parameter(description = "The type of repayment period") @QueryParam(value = "termUnit") @NotNull HomeLoanTermUnit termUnit,
+                                      @Parameter(description = "The amount of the monthly payments") @QueryParam(value = "monthlyPayment") @NotNull Double monthlyPayment);
 }

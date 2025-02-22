@@ -3,7 +3,7 @@ package io.github.badpop.mari.domain.service.favorite.ads;
 import io.github.badpop.mari.domain.control.MariFail;
 import io.github.badpop.mari.domain.control.favorite.ads.FavoriteAdAddition;
 import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAd;
-import io.github.badpop.mari.domain.port.api.FavoriteAdAdditionApi;
+import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdAdditionApi;
 import io.github.badpop.mari.domain.port.spi.FavoriteAdAdditionSpi;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;

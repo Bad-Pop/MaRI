@@ -1,4 +1,4 @@
-package io.github.badpop.mari.domain.port.api;
+package io.github.badpop.mari.domain.port.api.favorite.ads;
 
 import io.github.badpop.mari.domain.control.MariFail;
 import io.github.badpop.mari.domain.control.favorite.ads.FavoriteAdAddition;

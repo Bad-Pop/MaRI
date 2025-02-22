@@ -1,14 +1,14 @@
 package io.github.badpop.mari.app.resource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.badpop.mari.app.model.PageResponse;
 import io.github.badpop.mari.app.model.favorite.ads.request.FavoriteAdAdditionRequestBody;
 import io.github.badpop.mari.app.model.favorite.ads.response.FavoriteAdResponse;
 import io.github.badpop.mari.app.model.favorite.ads.response.SummaryFavoriteAdResponse;
 import io.github.badpop.mari.app.resource.spec.FavoriteAdResourceSpec;
 import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAdType;
-import io.github.badpop.mari.domain.port.api.FavoriteAdAdditionApi;
-import io.github.badpop.mari.domain.port.api.FavoriteAdFinderApi;
+import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdAdditionApi;
+import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdDeleterApi;
+import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdFinderApi;
 import io.github.badpop.mari.lib.http.monitoring.input.HttpIOLogs;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.Response;
@@ -23,10 +23,11 @@ import static io.github.badpop.mari.domain.model.favorite.ads.FavoriteAdType.SAL
 @RequiredArgsConstructor
 public class FavoriteAdResource implements FavoriteAdResourceSpec {
 
+  private final Paginator paginator;
+
   private final FavoriteAdAdditionApi additionApi;
   private final FavoriteAdFinderApi finderApi;
-
-  private final ObjectMapper om;
+  private final FavoriteAdDeleterApi deleterApi;
 
   @Override
   public Response addNewRentalFavoriteAd(String correlationId, FavoriteAdAdditionRequestBody additionRequest) {
@@ -47,7 +48,7 @@ public class FavoriteAdResource implements FavoriteAdResourceSpec {
 
   @Override
   public Response getAllRentalFavoriteAds(String correlationId, Integer page, Integer limit) {
-    val pagination = PaginationValidator.validate(page, limit);
+    val pagination = paginator.validate(page, limit);
     return finderApi.findAllByRentalType(pagination.page(), pagination.limit())
             .map(ads -> PageResponse.fromDomain(ads, SummaryFavoriteAdResponse::fromDomain))
             .fold(ResponseBuilder::fromFail, ResponseBuilder::ok);
@@ -55,7 +56,7 @@ public class FavoriteAdResource implements FavoriteAdResourceSpec {
 
   @Override
   public Response getAllSaleFavoriteAds(String correlationId, Integer page, Integer limit) {
-    val pagination = PaginationValidator.validate(page, limit);
+    val pagination = paginator.validate(page, limit);
     return finderApi.findAllBySaleType(pagination.page(), pagination.limit())
             .map(ads -> PageResponse.fromDomain(ads, SummaryFavoriteAdResponse::fromDomain))
             .fold(ResponseBuilder::fromFail, ResponseBuilder::ok);
@@ -63,7 +64,7 @@ public class FavoriteAdResource implements FavoriteAdResourceSpec {
 
   @Override
   public Response getAllFavoriteAds(String correlationId, Integer page, Integer limit) {
-    val pagination = PaginationValidator.validate(page, limit);
+    val pagination = paginator.validate(page, limit);
     return finderApi.findAll(pagination.page(), pagination.limit())
             .map(ads -> PageResponse.fromDomain(ads, SummaryFavoriteAdResponse::fromDomain))
             .fold(ResponseBuilder::fromFail, ResponseBuilder::ok);
@@ -71,12 +72,13 @@ public class FavoriteAdResource implements FavoriteAdResourceSpec {
 
   @Override
   public Response deleteFavoriteAdById(String correlationId, String favoriteAdId) {
-    throw new UnsupportedOperationException("Not yet implemented");
+    return deleterApi.deleteById(favoriteAdId)
+            .fold(ResponseBuilder::fromFail, ResponseBuilder::accepted);
   }
 
   @Override
   public Response deleteAllFavoriteAds(String correlationId) {
-    throw new UnsupportedOperationException("Not yet implemented");
+    return deleterApi.deleteAll().fold(ResponseBuilder::fromFail, ResponseBuilder::accepted);
   }
 
   private Response addNewFavoriteAd(FavoriteAdType type, FavoriteAdAdditionRequestBody additionRequest) {

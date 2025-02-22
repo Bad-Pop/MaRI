@@ -5,20 +5,19 @@ import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.ext.Provider;
 import lombok.val;
 
-import java.util.UUID;
-
 import static io.github.badpop.mari.app.resource.common.MariHeaders.CORRELATION_ID;
 import static io.vavr.API.Option;
+import static java.util.UUID.randomUUID;
 
 @Provider
 public class CorrelationIdHeaderRequestFilterProvider implements ContainerRequestFilter {
 
-    @Override
-    public void filter(ContainerRequestContext requestContext) {
-        val headers = requestContext.getHeaders();
+  @Override
+  public void filter(ContainerRequestContext requestContext) {
+    val headers = requestContext.getHeaders();
 
-        Option(headers.getFirst(CORRELATION_ID))
-                .filter(id -> !id.isBlank())
-                .onEmpty(() -> headers.putSingle(CORRELATION_ID, UUID.randomUUID().toString()));
-    }
+    Option(headers.getFirst(CORRELATION_ID))
+            .filter(id -> !id.isBlank())
+            .onEmpty(() -> headers.putSingle(CORRELATION_ID, randomUUID().toString()));
+  }
 }
