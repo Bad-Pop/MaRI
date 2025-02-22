@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: mari-postgres
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: mari
+      POSTGRES_PASSWORD: P@ssw0rd
+      POSTGRES_DB: mari
+    ports:
+      - "5432:5432"
+    volumes:
+      - mari-data-volume:/applis/docker-compose/data
+
+volumes:
+  mari-data-volume:
+    external: false
