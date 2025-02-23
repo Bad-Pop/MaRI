@@ -22,3 +22,5 @@ une suite d'outils adaptés et utiles dans la phase recherches.
 - Vavr
 - OpenAPI
 - Liquibase
+- TestContainer
+- Docker
