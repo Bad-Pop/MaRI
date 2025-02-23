@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="mari-app" type="QuarkusRunConfiguration" factoryName="QuarkusRunConfiguration">
+    <module name="mari-app" />
+    <option name="profile" value="dev" />
+    <method v="2" />
+  </configuration>
+</component>
