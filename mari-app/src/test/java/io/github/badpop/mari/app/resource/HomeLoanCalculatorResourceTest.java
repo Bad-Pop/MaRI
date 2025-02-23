@@ -18,14 +18,19 @@ import static io.github.badpop.mari.domain.model.home.loan.HomeLoanTermUnit.MONT
 import static io.github.badpop.mari.domain.model.home.loan.HomeLoanTermUnit.YEARS;
 import static io.restassured.RestAssured.given;
 import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals;
+import static org.hamcrest.Matchers.*;
 
 @QuarkusTest
 @WithoutPostgres
 class HomeLoanCalculatorResourceTest {
 
   private static final String BASE_PATH = "/home-loan/calculator";
-  private static final String MONTHLY_PAYMENT_BASE_PATH = "/monthly-payment?borrowedAmount=%s&annualInterestRate=%s&term=%s&termUnit=%s";
-  private static final String BORROWING_CAPACITY_BASE_PATH = "/borrowing-capacity";
+
+  private static final String MONTHLY_PAYMENT_BASE_PATH = BASE_PATH + "/monthly-payment";
+  private static final String MONTHLY_PAYMENT_QUERY_PARAMS = "?borrowedAmount=%s&annualInterestRate=%s&term=%s&termUnit=%s";
+
+  private static final String BORROWING_CAPACITY_BASE_PATH = BASE_PATH + "/borrowing-capacity";
+  private static final String BORROWING_CAPACITY_QUERY_PARAMS = "?annualInterestRate=%s&term=%s&termUnit=%s&monthlyPayment=%s";
 
   @BeforeAll
   static void setup() {
@@ -45,7 +50,7 @@ class HomeLoanCalculatorResourceTest {
                                         double expectedInterestCost) {
       given()
               .when()
-              .get(BASE_PATH + MONTHLY_PAYMENT_BASE_PATH.formatted(borrowedAmount, interestRate, term, termUnit))
+              .get(MONTHLY_PAYMENT_BASE_PATH + MONTHLY_PAYMENT_QUERY_PARAMS.formatted(borrowedAmount, interestRate, term, termUnit))
               .then()
               .statusCode(200)
               .body(jsonEquals("""
@@ -60,10 +65,17 @@ class HomeLoanCalculatorResourceTest {
     void should_not_compute_monthly_payment_on_invalid_query_params() {
       given()
               .when()
-              .get(BASE_PATH + "/monthly-payment")
+              .get(MONTHLY_PAYMENT_BASE_PATH)
               .then()
-              .statusCode(400);
-      //TODO ASSERT BODY
+              .statusCode(400)
+              .body("title", is("Constraint Violation"))
+              .body("status", is(400))
+              .body("violations", hasSize(4))
+              .body("violations.field", hasItems(
+                      "computeMonthlyPayment.annualInterestRate",
+                      "computeMonthlyPayment.borrowedAmount",
+                      "computeMonthlyPayment.term",
+                      "computeMonthlyPayment.termUnit"));
     }
 
     private static Stream<Arguments> provideValidParams() {
@@ -80,6 +92,59 @@ class HomeLoanCalculatorResourceTest {
               //500_990 sur 10 ans avec un taux à 1%
               Arguments.of(500990.0, 1.0, 120, MONTHS, 4388.88, 25675.6),
               Arguments.of(500990.0, 1.0, 10, YEARS, 4388.88, 25675.6)
+      );
+    }
+  }
+
+  @Nested
+  class ComputeBorrowingCapacity {
+
+    @ParameterizedTest
+    @MethodSource("provideValidParams")
+    void should_compute_borrowing_capacity(double annualInterestRate,
+                                           double monthlyPayment,
+                                           int term,
+                                           HomeLoanTermUnit termUnit,
+                                           double expectedAmount,
+                                           double expectedInterestCost) {
+      given()
+              .when()
+              .get(BORROWING_CAPACITY_BASE_PATH + BORROWING_CAPACITY_QUERY_PARAMS.formatted(annualInterestRate, term, termUnit, monthlyPayment))
+              .then()
+              .statusCode(200)
+              .body(jsonEquals("""
+                      {
+                          "amount": %s,
+                          "interestCost": %s
+                      }
+                      """.formatted(expectedAmount, expectedInterestCost)));
+    }
+
+    @Test
+    void should_not_compute_borrowing_capacity_on_invalid_query_params() {
+      given()
+              .when()
+              .get(BORROWING_CAPACITY_BASE_PATH)
+              .then()
+              .statusCode(400)
+              .body("title", is("Constraint Violation"))
+              .body("status", is(400))
+              .body("violations", hasSize(4))
+              .body("violations.field", hasItems(
+                      "computeBorrowingCapacity.annualInterestRate",
+                      "computeBorrowingCapacity.term",
+                      "computeBorrowingCapacity.termUnit",
+                      "computeBorrowingCapacity.monthlyPayment"));
+    }
+
+    private static Stream<Arguments> provideValidParams() {
+      return Stream.of(
+              //100_000€ sur 25 ans avec un taux à 0%
+              Arguments.of(0.0, 333.33, 300, MONTHS, 99999.0, 0.0),
+              Arguments.of(0.0, 333.33, 25, YEARS, 99999.0, 0.0),
+              //100_000 sur 25 ans avec un taux à 4
+              Arguments.of(4.0, 527.84, 300, MONTHS, 100000.6, 58351.4),
+              Arguments.of(4.0, 527.84, 25, YEARS, 100000.6, 58351.4)
       );
     }
   }

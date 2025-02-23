@@ -3,7 +3,7 @@ package io.github.badpop.mari.domain.service.favorite.ads;
 import io.github.badpop.mari.domain.control.MariFail;
 import io.github.badpop.mari.domain.control.Page;
 import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAd;
-import io.github.badpop.mari.domain.model.favorite.ads.SummaryFavoriteAd;
+import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAdSummary;
 import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdFinderApi;
 import io.github.badpop.mari.domain.port.spi.FavoriteAdFinderSpi;
 import io.vavr.control.Either;
@@ -20,17 +20,17 @@ public class FavoriteAdFinderService implements FavoriteAdFinderApi {
   }
 
   @Override
-  public Either<MariFail, Page<SummaryFavoriteAd>> findAll(int page, int size) {
+  public Either<MariFail, Page<FavoriteAdSummary>> findAll(int page, int size) {
     return spi.findAll(page, size);
   }
 
   @Override
-  public Either<MariFail, Page<SummaryFavoriteAd>> findAllByRentalType(int page, int size) {
+  public Either<MariFail, Page<FavoriteAdSummary>> findAllByRentalType(int page, int size) {
     return spi.findAllByRentalType(page, size);
   }
 
   @Override
-  public Either<MariFail, Page<SummaryFavoriteAd>> findAllBySaleType(int page, int size) {
+  public Either<MariFail, Page<FavoriteAdSummary>> findAllBySaleType(int page, int size) {
     return spi.findAllBySaleType(page, size);
   }
 }

@@ -9,6 +9,6 @@ public record FavoriteAd(String id,
                          Option<String> description,
                          Option<String> remarks,
                          Option<String> address,
-                         Option<Double> price,
+                         Option<Double> price,//TODO REFACTOR : MAKE REQUIRED AND AD IT TO THE SUMMARY PROJECTION
                          Option<Double> pricePerSquareMeter) {
 }

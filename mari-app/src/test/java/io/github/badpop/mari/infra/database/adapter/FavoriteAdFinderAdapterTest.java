@@ -5,7 +5,7 @@ import io.github.badpop.mari.domain.control.MariFail.NoResourceFoundFail;
 import io.github.badpop.mari.domain.control.MariFail.ResourceNotFoundFail;
 import io.github.badpop.mari.domain.control.Page;
 import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAdType;
-import io.github.badpop.mari.domain.model.favorite.ads.SummaryFavoriteAd;
+import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAdSummary;
 import io.github.badpop.mari.infra.database.model.favorite.ads.FavoriteAdEntity;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -79,8 +79,8 @@ class FavoriteAdFinderAdapterTest {
                       false,
                       2,
                       1,
-                      Seq(new SummaryFavoriteAd("one", "title", "url", SALE),
-                              new SummaryFavoriteAd("two", "title", "url", RENTAL))));
+                      Seq(new FavoriteAdSummary("one", "title", "url", SALE),
+                              new FavoriteAdSummary("two", "title", "url", RENTAL))));
     }
 
     @Test
@@ -105,7 +105,7 @@ class FavoriteAdFinderAdapterTest {
                       true,
                       2,
                       2,
-                      Seq(new SummaryFavoriteAd("one", "title", "url", SALE))));
+                      Seq(new FavoriteAdSummary("one", "title", "url", SALE))));
 
       assertThatPage(secondPage).isEqualToWithItemsContainsExactly(
               new Page<>(1,
@@ -113,7 +113,7 @@ class FavoriteAdFinderAdapterTest {
                       false,
                       2,
                       2,
-                      Seq(new SummaryFavoriteAd("two", "title", "url", RENTAL))));
+                      Seq(new FavoriteAdSummary("two", "title", "url", RENTAL))));
     }
 
     @Test
@@ -141,7 +141,7 @@ class FavoriteAdFinderAdapterTest {
                       false,
                       1,
                       1,
-                      Seq(new SummaryFavoriteAd("two", "title", "url", RENTAL))));
+                      Seq(new FavoriteAdSummary("two", "title", "url", RENTAL))));
     }
 
     @Test
@@ -168,7 +168,7 @@ class FavoriteAdFinderAdapterTest {
                       true,
                       2,
                       2,
-                      Seq(new SummaryFavoriteAd("one", "title", "url", RENTAL))));
+                      Seq(new FavoriteAdSummary("one", "title", "url", RENTAL))));
 
       assertThatPage(secondPage).isEqualToWithItemsContainsExactly(
               new Page<>(
@@ -177,7 +177,7 @@ class FavoriteAdFinderAdapterTest {
                       false,
                       2,
                       2,
-                      Seq(new SummaryFavoriteAd("two", "title", "url", RENTAL))));
+                      Seq(new FavoriteAdSummary("two", "title", "url", RENTAL))));
     }
 
     @Test
@@ -206,7 +206,7 @@ class FavoriteAdFinderAdapterTest {
                       false,
                       1,
                       1,
-                      Seq(new SummaryFavoriteAd("two", "title", "url", SALE))));
+                      Seq(new FavoriteAdSummary("two", "title", "url", SALE))));
     }
 
     @Test
@@ -233,7 +233,7 @@ class FavoriteAdFinderAdapterTest {
                       true,
                       2,
                       2,
-                      Seq(new SummaryFavoriteAd("one", "title", "url", SALE))));
+                      Seq(new FavoriteAdSummary("one", "title", "url", SALE))));
 
       assertThatPage(secondPage).isEqualToWithItemsContainsExactly(
               new Page<>(
@@ -242,7 +242,7 @@ class FavoriteAdFinderAdapterTest {
                       false,
                       2,
                       2,
-                      Seq(new SummaryFavoriteAd("two", "title", "url", SALE))));
+                      Seq(new FavoriteAdSummary("two", "title", "url", SALE))));
     }
 
     @Test

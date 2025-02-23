@@ -6,9 +6,9 @@ import io.github.badpop.mari.domain.control.MariFail.TechnicalFail;
 import io.github.badpop.mari.domain.control.Page;
 import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAd;
 import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAdType;
-import io.github.badpop.mari.domain.model.favorite.ads.SummaryFavoriteAd;
+import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAdSummary;
 import io.github.badpop.mari.infra.database.model.MariEntity;
-import io.github.badpop.mari.infra.database.model.favorite.ads.projection.SummaryFavoriteAdEntityProjection;
+import io.github.badpop.mari.infra.database.model.favorite.ads.projection.FavoriteAdEntitySummaryProjection;
 import io.quarkus.logging.Log;
 import io.vavr.API;
 import io.vavr.control.Either;
@@ -112,28 +112,30 @@ public class FavoriteAdEntity extends MariEntity<FavoriteAdEntity, FavoriteAd> {
             .mapLeft(t -> new ResourceNotFoundFail(t.getMessage()));
   }
 
-  public static Either<MariFail, Page<SummaryFavoriteAd>> findAll(int page, int size) {
+  public static Either<MariFail, Page<FavoriteAdSummary>> findAll(int page, int size) {
     return Try(() -> FavoriteAdEntity.<FavoriteAdEntity>find("#FavoriteAdEntity.findAll"))
             .toEither()
             .<MariFail>mapLeft(t -> new TechnicalFail("An error occurred while trying to retrieve favorite ads page %s with size of %s".formatted(page, size), t))
-            .flatMap(query -> newPage(query, page, size, SummaryFavoriteAdEntityProjection.class))
+            .flatMap(query -> newPage(query, page, size, FavoriteAdEntitySummaryProjection.class))
             .peekLeft(fail -> Log.error(fail.asLog()));
   }
 
-  public static Either<MariFail, Page<SummaryFavoriteAd>> findAllByType(FavoriteAdType type, int page, int size) {
+  public static Either<MariFail, Page<FavoriteAdSummary>> findAllByType(FavoriteAdType type, int page, int size) {
     return Try(() -> FavoriteAdEntity.<FavoriteAdEntity>find("type", type))
             .toEither()
             .<MariFail>mapLeft(t -> new TechnicalFail("An error occurred while trying to retrieve favorite ads of type %s page %s with size of %s".formatted(type, page, size), t))
-            .flatMap(query -> newPage(query, page, size, SummaryFavoriteAdEntityProjection.class))
+            .flatMap(query -> newPage(query, page, size, FavoriteAdEntitySummaryProjection.class))
             .peekLeft(fail -> Log.error(fail.asLog()));
   }
 
   public static Either<MariFail, Void> deleteById(String id) {
     return findById(id)
             .peekLeft(fail -> Log.errorv("Unable to retrieve ad with id {0} for deletion. Detail : {1}", id, fail.asLog()))
-            .flatMap(foundEntity -> Try(() -> run(foundEntity::delete))
-                    .toEither()
-                    .mapLeft(t -> new TechnicalFail("An error occurred while trying to delete favorite ad with id=" + id, t)))
+            .<Either<MariFail, Void>>fold(
+                    resourceNotFoundFail -> Right(null),
+                    ad -> Try(() -> run(ad::delete))
+                            .toEither()
+                            .mapLeft(t -> new TechnicalFail("An error occurred while trying to delete favorite ad with id=" + id, t)))
             .peekLeft(fail -> Log.error(fail.asLog()));
   }
 

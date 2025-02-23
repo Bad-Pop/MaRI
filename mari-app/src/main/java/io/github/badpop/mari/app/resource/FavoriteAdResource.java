@@ -3,7 +3,7 @@ package io.github.badpop.mari.app.resource;
 import io.github.badpop.mari.app.model.PageResponse;
 import io.github.badpop.mari.app.model.favorite.ads.request.FavoriteAdAdditionRequestBody;
 import io.github.badpop.mari.app.model.favorite.ads.response.FavoriteAdResponse;
-import io.github.badpop.mari.app.model.favorite.ads.response.SummaryFavoriteAdResponse;
+import io.github.badpop.mari.app.model.favorite.ads.response.FavoriteAdSummaryResponse;
 import io.github.badpop.mari.app.resource.spec.FavoriteAdResourceSpec;
 import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAdType;
 import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdAdditionApi;
@@ -50,7 +50,7 @@ public class FavoriteAdResource implements FavoriteAdResourceSpec {
   public Response getAllRentalFavoriteAds(String correlationId, Integer page, Integer limit) {
     val pagination = paginator.validate(page, limit);
     return finderApi.findAllByRentalType(pagination.page(), pagination.limit())
-            .map(ads -> PageResponse.fromDomain(ads, SummaryFavoriteAdResponse::fromDomain))
+            .map(ads -> PageResponse.fromDomain(ads, FavoriteAdSummaryResponse::fromDomain))
             .fold(ResponseBuilder::fromFail, ResponseBuilder::ok);
   }
 
@@ -58,7 +58,7 @@ public class FavoriteAdResource implements FavoriteAdResourceSpec {
   public Response getAllSaleFavoriteAds(String correlationId, Integer page, Integer limit) {
     val pagination = paginator.validate(page, limit);
     return finderApi.findAllBySaleType(pagination.page(), pagination.limit())
-            .map(ads -> PageResponse.fromDomain(ads, SummaryFavoriteAdResponse::fromDomain))
+            .map(ads -> PageResponse.fromDomain(ads, FavoriteAdSummaryResponse::fromDomain))
             .fold(ResponseBuilder::fromFail, ResponseBuilder::ok);
   }
 
@@ -66,7 +66,7 @@ public class FavoriteAdResource implements FavoriteAdResourceSpec {
   public Response getAllFavoriteAds(String correlationId, Integer page, Integer limit) {
     val pagination = paginator.validate(page, limit);
     return finderApi.findAll(pagination.page(), pagination.limit())
-            .map(ads -> PageResponse.fromDomain(ads, SummaryFavoriteAdResponse::fromDomain))
+            .map(ads -> PageResponse.fromDomain(ads, FavoriteAdSummaryResponse::fromDomain))
             .fold(ResponseBuilder::fromFail, ResponseBuilder::ok);
   }
 

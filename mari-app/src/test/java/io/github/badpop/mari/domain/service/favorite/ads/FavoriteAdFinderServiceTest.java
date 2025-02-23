@@ -6,7 +6,7 @@ import io.github.badpop.mari.domain.control.MariFail.ResourceNotFoundFail;
 import io.github.badpop.mari.domain.control.MariFail.TechnicalFail;
 import io.github.badpop.mari.domain.control.Page;
 import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAd;
-import io.github.badpop.mari.domain.model.favorite.ads.SummaryFavoriteAd;
+import io.github.badpop.mari.domain.model.favorite.ads.FavoriteAdSummary;
 import io.github.badpop.mari.domain.port.spi.FavoriteAdFinderSpi;
 import io.vavr.control.Either;
 import lombok.val;
@@ -30,7 +30,7 @@ class FavoriteAdFinderServiceTest {
           Some(590000.0),
           None());
 
-  private static final SummaryFavoriteAd A_SUMMARY_AD = new SummaryFavoriteAd(
+  private static final FavoriteAdSummary A_SUMMARY_AD = new FavoriteAdSummary(
           AN_AD.id(),
           AN_AD.name(),
           AN_AD.url(),
@@ -75,7 +75,7 @@ class FavoriteAdFinderServiceTest {
       }
 
       @Override
-      public Either<MariFail, Page<SummaryFavoriteAd>> findAll(int page, int size) {
+      public Either<MariFail, Page<FavoriteAdSummary>> findAll(int page, int size) {
         return Right(new Page<>(
                 0,
                 1,
@@ -86,7 +86,7 @@ class FavoriteAdFinderServiceTest {
       }
 
       @Override
-      public Either<MariFail, Page<SummaryFavoriteAd>> findAllByRentalType(int page, int size) {
+      public Either<MariFail, Page<FavoriteAdSummary>> findAllByRentalType(int page, int size) {
         return Right(new Page<>(
                 0,
                 1,
@@ -97,7 +97,7 @@ class FavoriteAdFinderServiceTest {
       }
 
       @Override
-      public Either<MariFail, Page<SummaryFavoriteAd>> findAllBySaleType(int page, int size) {
+      public Either<MariFail, Page<FavoriteAdSummary>> findAllBySaleType(int page, int size) {
         return Right(new Page<>(
                 0,
                 1,
@@ -148,17 +148,17 @@ class FavoriteAdFinderServiceTest {
         }
 
         @Override
-        public Either<MariFail, Page<SummaryFavoriteAd>> findAll(int page, int size) {
+        public Either<MariFail, Page<FavoriteAdSummary>> findAll(int page, int size) {
           return Left(new NoResourceFoundFail("No ads where found"));
         }
 
         @Override
-        public Either<MariFail, Page<SummaryFavoriteAd>> findAllByRentalType(int page, int size) {
+        public Either<MariFail, Page<FavoriteAdSummary>> findAllByRentalType(int page, int size) {
           return Left(new NoResourceFoundFail("No ads where found"));
         }
 
         @Override
-        public Either<MariFail, Page<SummaryFavoriteAd>> findAllBySaleType(int page, int size) {
+        public Either<MariFail, Page<FavoriteAdSummary>> findAllBySaleType(int page, int size) {
           return Left(new NoResourceFoundFail("No ads where found"));
         }
       }
@@ -201,17 +201,17 @@ class FavoriteAdFinderServiceTest {
         }
 
         @Override
-        public Either<MariFail, Page<SummaryFavoriteAd>> findAll(int page, int size) {
+        public Either<MariFail, Page<FavoriteAdSummary>> findAll(int page, int size) {
           return Left(new TechnicalFail("An error occurred", new Exception("Something went wrong")));
         }
 
         @Override
-        public Either<MariFail, Page<SummaryFavoriteAd>> findAllByRentalType(int page, int size) {
+        public Either<MariFail, Page<FavoriteAdSummary>> findAllByRentalType(int page, int size) {
           return Left(new TechnicalFail("An error occurred", new Exception("Something went wrong")));
         }
 
         @Override
-        public Either<MariFail, Page<SummaryFavoriteAd>> findAllBySaleType(int page, int size) {
+        public Either<MariFail, Page<FavoriteAdSummary>> findAllBySaleType(int page, int size) {
           return Left(new TechnicalFail("An error occurred", new Exception("Something went wrong")));
         }
       }
