@@ -66,7 +66,7 @@ public class FavoriteAdEntity extends MariEntity<FavoriteAdEntity, FavoriteAd> {
   private Double price;
 
   @Column(name = "price_per_square_meter")
-  private Double pricePerSquareMete;
+  private Double pricePerSquareMeter;
 
   public static FavoriteAdEntity fromDomain(FavoriteAd domain) {
     return new FavoriteAdEntity(
@@ -92,11 +92,10 @@ public class FavoriteAdEntity extends MariEntity<FavoriteAdEntity, FavoriteAd> {
             Option(remarks),
             Option(address),
             Option(price),
-            Option(pricePerSquareMete));
+            Option(pricePerSquareMeter));
   }
 
   public static Either<MariFail, FavoriteAdEntity> findById(String id) {
-    //Autre possibilité à prendre en compte pour requêtage par natural id : https://vladmihalcea.com/the-best-way-to-map-a-naturalid-business-key-with-jpa-and-hibernate/
     val result = Try(() -> FavoriteAdEntity.find("id", id).<FavoriteAdEntity>firstResult())
             .map(API::Option);
 
@@ -114,7 +113,7 @@ public class FavoriteAdEntity extends MariEntity<FavoriteAdEntity, FavoriteAd> {
   }
 
   public static Either<MariFail, Page<SummaryFavoriteAd>> findAll(int page, int size) {
-    return Try(() -> FavoriteAdEntity.<FavoriteAdEntity>find("#FavoriteAdEntity.findAll"))//TODO La méthode findAll de PanacheBaseEntity ne fonctionne pas, il faut passer par un repository, créer une issue ici : https://github.com/quarkusio/quarkus/issues
+    return Try(() -> FavoriteAdEntity.<FavoriteAdEntity>find("#FavoriteAdEntity.findAll"))
             .toEither()
             .<MariFail>mapLeft(t -> new TechnicalFail("An error occurred while trying to retrieve favorite ads page %s with size of %s".formatted(page, size), t))
             .flatMap(query -> newPage(query, page, size, SummaryFavoriteAdEntityProjection.class))
