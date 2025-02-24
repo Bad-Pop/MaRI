@@ -1,15 +1,15 @@
 package io.github.badpop.mari.bootstrap;
 
-import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdAdditionApi;
-import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdDeleterApi;
-import io.github.badpop.mari.domain.port.api.favorite.ads.FavoriteAdFinderApi;
+import io.github.badpop.mari.domain.port.api.ad.AdAdditionApi;
+import io.github.badpop.mari.domain.port.api.ad.AdDeleterApi;
+import io.github.badpop.mari.domain.port.api.ad.AdFinderApi;
 import io.github.badpop.mari.domain.port.api.home.loan.HomeLoanCalculatorApi;
-import io.github.badpop.mari.domain.port.spi.FavoriteAdAdditionSpi;
-import io.github.badpop.mari.domain.port.spi.FavoriteAdDeleterSpi;
-import io.github.badpop.mari.domain.port.spi.FavoriteAdFinderSpi;
-import io.github.badpop.mari.domain.service.favorite.ads.FavoriteAdAdditionService;
-import io.github.badpop.mari.domain.service.favorite.ads.FavoriteAdDeleterService;
-import io.github.badpop.mari.domain.service.favorite.ads.FavoriteAdFinderService;
+import io.github.badpop.mari.domain.port.spi.AdAdditionSpi;
+import io.github.badpop.mari.domain.port.spi.AdDeleterSpi;
+import io.github.badpop.mari.domain.port.spi.AdFinderSpi;
+import io.github.badpop.mari.domain.service.ad.AdAdditionService;
+import io.github.badpop.mari.domain.service.ad.AdDeleterService;
+import io.github.badpop.mari.domain.service.ad.AdFinderService;
 import io.github.badpop.mari.domain.service.home.loan.HomeLoanCalculatorService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
@@ -26,19 +26,19 @@ public class DomainConfiguration {
 
   @Produces
   @Singleton
-  public FavoriteAdAdditionApi favoriteAdAdditionApi(FavoriteAdAdditionSpi favoriteAdAdditionSpi) {
-    return new FavoriteAdAdditionService(favoriteAdAdditionSpi);
+  public AdAdditionApi adAdditionApi(AdAdditionSpi adAdditionSpi) {
+    return new AdAdditionService(adAdditionSpi);
   }
 
   @Produces
   @Singleton
-  public FavoriteAdFinderApi favoriteAdFinderApi(FavoriteAdFinderSpi favoriteAdFinderSpi) {
-    return new FavoriteAdFinderService(favoriteAdFinderSpi);
+  public AdFinderApi adFinderApi(AdFinderSpi adFinderSpi) {
+    return new AdFinderService(adFinderSpi);
   }
 
   @Produces
   @Singleton
-  public FavoriteAdDeleterApi favoriteAdDeleterApi(FavoriteAdDeleterSpi favoriteAdDeleterSpi) {
-    return new FavoriteAdDeleterService(favoriteAdDeleterSpi);
+  public AdDeleterApi adDeleterApi(AdDeleterSpi adDeleterSpi) {
+    return new AdDeleterService(adDeleterSpi);
   }
 }
