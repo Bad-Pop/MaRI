@@ -5,7 +5,12 @@ meta {
 }
 
 get {
-  url: {{url}}/ads
+  url: {{url}}/ads?page=0&limit=10
   body: none
   auth: none
+}
+
+params:query {
+  page: 0
+  limit: 10
 }

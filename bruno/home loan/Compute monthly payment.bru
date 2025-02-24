@@ -1,0 +1,18 @@
+meta {
+  name: Compute monthly payment
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/home-loan/calculator/monthly-payment?annualInterestRate=4&borrowedAmount=250000&term=25&termUnit=YEARS
+  body: none
+  auth: none
+}
+
+params:query {
+  annualInterestRate: 4
+  borrowedAmount: 250000
+  term: 25
+  termUnit: YEARS
+}
