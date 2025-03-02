@@ -27,6 +27,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 @Tags(value = {@Tag(name = "Ads")})
 public interface AdResourceSpec {
 
+  //TODO REFACTOR : MERGE WITH ADDITION SALE
   @POST
   @Path("/rental")
   @Operation(summary = "Create new rental ad", description = "Create a new rental ad")
@@ -43,6 +44,7 @@ public interface AdResourceSpec {
   Response addNewRentalAd(@Parameter(description = "The request id") @HeaderParam(value = CORRELATION_ID) String correlationId,
                           @Valid @NotNull AdAdditionRequestBody additionRequest);
 
+  //TODO REFACTOR : MERGE WITH ADDITION RENTAL
   @POST
   @Path("/sale")
   @Operation(summary = "Create new sale ad", description = "Create a new sale ad")

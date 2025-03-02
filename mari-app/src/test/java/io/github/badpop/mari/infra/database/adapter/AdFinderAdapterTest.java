@@ -1,12 +1,13 @@
 package io.github.badpop.mari.infra.database.adapter;
 
+import io.github.badpop.mari.infra.database.ad.adapter.AdFinderAdapter;
 import io.github.badpop.mari.lib.test.WithSharedPostgres;
 import io.github.badpop.mari.domain.control.MariFail.NoResourceFoundFail;
 import io.github.badpop.mari.domain.control.MariFail.ResourceNotFoundFail;
 import io.github.badpop.mari.domain.control.Page;
 import io.github.badpop.mari.domain.model.ad.AdType;
 import io.github.badpop.mari.domain.model.ad.AdSummary;
-import io.github.badpop.mari.infra.database.model.ad.AdEntity;
+import io.github.badpop.mari.infra.database.ad.AdEntity;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;

@@ -29,6 +29,7 @@ public class CodingGuidelinesTest {
 
   private static final String[] ALLOWED_DOMAIN_PACKAGES = {
           DOMAIN_PACKAGE,
+          "io.github.badpop.mari.context..",
           "io.github.badpop.mari.lib.failures..",
           "io.vavr..",
           "lombok..",

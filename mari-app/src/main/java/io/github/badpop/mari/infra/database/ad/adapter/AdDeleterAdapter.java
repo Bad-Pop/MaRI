@@ -1,8 +1,8 @@
-package io.github.badpop.mari.infra.database.adapter;
+package io.github.badpop.mari.infra.database.ad.adapter;
 
 import io.github.badpop.mari.domain.control.MariFail;
 import io.github.badpop.mari.domain.port.spi.AdDeleterSpi;
-import io.github.badpop.mari.infra.database.model.ad.AdEntity;
+import io.github.badpop.mari.infra.database.ad.AdEntity;
 import io.vavr.control.Either;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;

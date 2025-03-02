@@ -3,8 +3,9 @@ package io.github.badpop.mari.app.resource.ad;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.badpop.mari.app.model.ad.request.AdAdditionRequestBody;
+import io.github.badpop.mari.app.resource.WithAuthenticatedUser;
 import io.github.badpop.mari.domain.control.MariFail.ResourceNotFoundFail;
-import io.github.badpop.mari.infra.database.model.ad.AdEntity;
+import io.github.badpop.mari.infra.database.ad.AdEntity;
 import io.github.badpop.mari.lib.test.WithSharedPostgres;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
@@ -58,6 +59,7 @@ class AdResourceTest {
     class ByRentalType {
 
       @Test
+      @WithAuthenticatedUser
       void should_create_new_ad() throws JsonProcessingException {
         val body = new AdAdditionRequestBody(
                 "My Ad",
@@ -100,6 +102,7 @@ class AdResourceTest {
       }
 
       @Test
+      @WithAuthenticatedUser
       void should_not_create_ad_with_missing_mandatory_fields() {
         val body = new AdAdditionRequestBody(
                 null,
@@ -124,12 +127,33 @@ class AdResourceTest {
                         "addNewRentalAd.additionRequest.adName",
                         "addNewRentalAd.additionRequest.price"));
       }
+
+      @Test
+        //@WithAuthenticatedUser not authenticated
+      void should_not_create_ad_if_not_authenticated() {
+        val body = new AdAdditionRequestBody(
+                "My Ad",
+                "https://www.mari.fr/ads/123456789",
+                150000.0,
+                "My awsome ad description",
+                "My personal remarks",
+                "The property address",
+                3253.0);
+
+        given()
+                .body(body)
+                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .post(RENTAL_PATH)
+                .then()
+                .statusCode(401);
+      }
     }
 
     @Nested
     class BySaleType {
 
       @Test
+      @WithAuthenticatedUser
       void should_create_new_ad() throws JsonProcessingException {
         val body = new AdAdditionRequestBody(
                 "My Ad",
@@ -172,6 +196,7 @@ class AdResourceTest {
       }
 
       @Test
+      @WithAuthenticatedUser
       void should_not_create_ad_with_missing_mandatory_fields() {
         val body = new AdAdditionRequestBody(
                 null,
@@ -196,6 +221,26 @@ class AdResourceTest {
                         "addNewSaleAd.additionRequest.adName",
                         "addNewSaleAd.additionRequest.price"));
       }
+
+      @Test
+        //@WithAuthenticatedUser not authenticated
+      void should_not_create_ad_if_not_authenticated() {
+        val body = new AdAdditionRequestBody(
+                "My Ad",
+                "https://www.mari.fr/ads/123456789",
+                150000.0,
+                "My awsome ad description",
+                "My personal remarks",
+                "The property address",
+                3253.0);
+
+        given()
+                .body(body)
+                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .post(SALE_PATH)
+                .then()
+                .statusCode(401);
+      }
     }
   }
 
@@ -203,6 +248,7 @@ class AdResourceTest {
   class GetById {
 
     @Test
+    @WithAuthenticatedUser
     void should_find_ad_by_id() {
       val entity = new AdEntity(
               "id",
@@ -237,6 +283,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_not_find_ad_by_id_if_does_not_exist() {
       given()
               .pathParam("adId", "unknown-id")
@@ -244,12 +291,23 @@ class AdResourceTest {
               .then()
               .statusCode(204);
     }
+
+    @Test
+      //@WithAuthenticatedUser not authenticated
+    void should_not_find_ad_if_not_authenticated() {
+      given()
+              .pathParam("adId", "unknown-id")
+              .get(BASE_PATH + "/{adId}")
+              .then()
+              .statusCode(401);
+    }
   }
 
   @Nested
   class GetAll {
 
     @Test
+    @WithAuthenticatedUser
     void should_get_all_ads() {
       val entityOne = new AdEntity(
               "id1",
@@ -298,6 +356,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_get_first_page() {
       val entityOne = new AdEntity(
               "id1",
@@ -346,6 +405,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_get_last_page() {
       val entityOne = new AdEntity(
               "id1",
@@ -394,6 +454,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_get_all_ads_with_default_pagination() {
       val entityOne = new AdEntity(
               "id1",
@@ -441,6 +502,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_not_get_all_on_empty_table() {
       given()
               .queryParam("page", 0)
@@ -451,6 +513,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_not_get_all_on_empty_table_with_default_pagination() {
       given()
               //No query params to use default pagination
@@ -458,12 +521,22 @@ class AdResourceTest {
               .then()
               .statusCode(204);
     }
+
+    @Test
+      //@WithAuthenticatedUser not authenticated
+    void should_not_get_all_if_not_authenticated() {
+      given()
+              .get(BASE_PATH)
+              .then()
+              .statusCode(401);
+    }
   }
 
   @Nested
   class GetAllByRentalType {
 
     @Test
+    @WithAuthenticatedUser
     void should_get_all_ads() {
       val entityOne = new AdEntity(
               "id1",
@@ -512,6 +585,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_get_first_page() {
       val entityOne = new AdEntity(
               "id1",
@@ -571,6 +645,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_get_last_page() {
       val entityOne = new AdEntity(
               "id1",
@@ -630,6 +705,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_get_all_ads_with_default_pagination() {
       val entityOne = new AdEntity(
               "id1",
@@ -688,6 +764,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_not_get_all_on_empty_table() {
       given()
               .queryParam("page", 0)
@@ -698,6 +775,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_not_get_all_on_empty_table_with_default_pagination() {
       given()
               //No query params to use default pagination
@@ -705,11 +783,22 @@ class AdResourceTest {
               .then()
               .statusCode(204);
     }
+
+    @Test
+      //@WithAuthenticatedUser not authenticated
+    void should_not_get_all_ads_if_not_authenticated() {
+      given()
+              .get(RENTAL_PATH)
+              .then()
+              .statusCode(401);
+    }
   }
 
   @Nested
   class GetAllBySaleType {
+
     @Test
+    @WithAuthenticatedUser
     void should_get_all_ads() {
       val entityOne = new AdEntity(
               "id1",
@@ -758,6 +847,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_get_first_page() {
       val entityOne = new AdEntity(
               "id1",
@@ -817,6 +907,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_get_last_page() {
       val entityOne = new AdEntity(
               "id1",
@@ -876,6 +967,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_get_all_ads_with_default_pagination() {
       val entityOne = new AdEntity(
               "id1",
@@ -934,6 +1026,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_not_get_all_on_empty_table() {
       given()
               .queryParam("page", 0)
@@ -944,6 +1037,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_not_get_all_on_empty_table_with_default_pagination() {
       given()
               //No query params to use default pagination
@@ -951,12 +1045,22 @@ class AdResourceTest {
               .then()
               .statusCode(204);
     }
+
+    @Test
+      //@WithAuthenticatedUser not authenticated
+    void should_not_get_all_if_not_authenticated() {
+      given()
+              .get(SALE_PATH)
+              .then()
+              .statusCode(401);
+    }
   }
 
   @Nested
   class Delete {
 
     @Test
+    @WithAuthenticatedUser
     void should_delete_existing_ad() {
       val entity = new AdEntity(
               "id1",
@@ -981,6 +1085,7 @@ class AdResourceTest {
     }
 
     @Test
+    @WithAuthenticatedUser
     void should_not_delete_ad_if_it_does_not_exists() {
       given()
               .pathParam("adId", "not-existing-id")
@@ -991,12 +1096,23 @@ class AdResourceTest {
       val inDbAds = AdEntity.findAll().list();
       Assertions.assertThat(inDbAds).isEmpty();
     }
+
+    @Test
+      //@WithAuthenticatedUser not authenticated
+    void should_not_delete_if_not_authenticated() {
+      given()
+              .pathParam("adId", "not-existing-id")
+              .delete(BASE_PATH + "/{adId}")
+              .then()
+              .statusCode(401);
+    }
   }
 
   @Nested
   class DeleteAll {
 
     @Test
+    @WithAuthenticatedUser
     void should_delete_all_ads() {
       val entityOne = new AdEntity(
               "id1",
@@ -1028,6 +1144,15 @@ class AdResourceTest {
 
       val inDbAds = AdEntity.findAll().list();
       Assertions.assertThat(inDbAds).isEmpty();
+    }
+
+    @Test
+      //@WithAuthenticatedUser not authenticated
+    void should_not_delete_all_if_not_authenticated() {
+      given()
+              .delete(BASE_PATH)
+              .then()
+              .statusCode(401);
     }
   }
 

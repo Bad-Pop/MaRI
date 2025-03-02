@@ -1,7 +1,8 @@
 package io.github.badpop.mari.infra.database.adapter;
 
 import io.github.badpop.mari.domain.control.ad.AdAddition;
-import io.github.badpop.mari.infra.database.model.ad.AdEntity;
+import io.github.badpop.mari.infra.database.ad.AdEntity;
+import io.github.badpop.mari.infra.database.ad.adapter.AdAdditionAdapter;
 import io.github.badpop.mari.lib.test.WithSharedPostgres;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;

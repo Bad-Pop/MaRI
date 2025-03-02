@@ -1,9 +1,9 @@
-package io.github.badpop.mari.infra.database.model.learn;
+package io.github.badpop.mari.infra.database.learn;
 
 import static io.vavr.API.Try;
 import static jakarta.persistence.FetchType.LAZY;
 
-import io.github.badpop.mari.infra.database.model.MariEntity;
+import io.github.badpop.mari.infra.database.MariEntity;
 import io.quarkus.panache.common.Parameters;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;

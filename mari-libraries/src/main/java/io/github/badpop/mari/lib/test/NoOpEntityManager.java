@@ -17,7 +17,6 @@ import java.util.Map;
 @ApplicationScoped
 public class NoOpEntityManager implements EntityManager {
 
-
   @Override
   public void persist(Object entity) {
 

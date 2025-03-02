@@ -1,4 +1,4 @@
-package io.github.badpop.mari.infra.database.model;
+package io.github.badpop.mari.infra.database;
 
 /**
  * WARNING : projection classes must not have an empty constructor

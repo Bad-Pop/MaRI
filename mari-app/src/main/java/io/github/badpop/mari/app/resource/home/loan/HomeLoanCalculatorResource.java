@@ -5,13 +5,11 @@ import io.github.badpop.mari.app.model.home.loan.HomeLoanMonthlyPaymentResponse;
 import io.github.badpop.mari.app.resource.ResponseBuilder;
 import io.github.badpop.mari.domain.model.home.loan.HomeLoanTermUnit;
 import io.github.badpop.mari.domain.port.api.home.loan.HomeLoanCalculatorApi;
-import io.github.badpop.mari.lib.http.monitoring.input.HttpIOLogs;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 
 @Singleton
-@HttpIOLogs
 @RequiredArgsConstructor
 public class HomeLoanCalculatorResource implements HomeLoanCalculatorResourceSpec {
 

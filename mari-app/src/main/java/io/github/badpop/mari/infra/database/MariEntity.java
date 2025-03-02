@@ -1,4 +1,4 @@
-package io.github.badpop.mari.infra.database.model;
+package io.github.badpop.mari.infra.database;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.badpop.mari.domain.control.MariFail;
@@ -30,7 +30,7 @@ import static io.vavr.API.*;
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class MariEntity<E, D> extends PanacheEntityBase {
+public abstract class MariEntity<E extends MariEntity<E, D>, D> extends PanacheEntityBase {
 
   @Transient
   @JsonIgnore
@@ -57,16 +57,25 @@ public abstract class MariEntity<E, D> extends PanacheEntityBase {
   /**
    * Persiste l'entité en base de données si elle est absente, sinon ne fait rien.
    *
-   * @return l'entité mappé vers son équivalent dans le domaine
+   * @return l'entité
    */
-  public Either<MariFail, D> persistIfAbsent() {
+  public Either<MariFail, E> persistIfAbsent() {
     return Try(() -> {
       if (isAbsent()) persist();
-      return toDomain();
+      return (E) this;
     })
             .toEither()
             .<MariFail>mapLeft(t -> new TechnicalFail("Error while trying to persist entity of type " + entityName(), t))
             .peekLeft(fail -> LOG.error(fail.asLog()));
+  }
+
+  /**
+   * Persiste l'entité en base de données si elle est absente, sinon ne fait rien.
+   *
+   * @return l'entité mappé vers son équivalent dans le domaine
+   */
+  public Either<MariFail, D> persistIfAbsentAsDomain() {
+    return persistIfAbsent().map(MariEntity::toDomain);
   }
 
   /**

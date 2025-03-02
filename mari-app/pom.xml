@@ -3,6 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>io.github.bad-pop</groupId>
     <artifactId>mari</artifactId>
@@ -10,30 +11,6 @@
   </parent>
 
   <artifactId>mari-app</artifactId>
-
-  <properties>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>21</maven.compiler.target>
-    <maven.compiler.release>21</maven.compiler.release>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-    <quarkus.platform.version>3.18.4</quarkus.platform.version>
-
-    <vavr.version>0.10.6</vavr.version>
-    <vavr-jackason.version>0.10.3</vavr-jackason.version>
-    <lombok.version>1.18.36</lombok.version>
-
-    <assertj-core.version>3.27.3</assertj-core.version>
-    <assertj-vavr.version>0.4.3</assertj-vavr.version>
-    <archunit-junit5.version>1.4.0</archunit-junit5.version>
-    <hamcrest-json.version>0.3</hamcrest-json.version>
-    <json-unit.version>4.1.0</json-unit.version>
-    <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-
-    <compiler-plugin.version>3.14.0</compiler-plugin.version>
-    <surefire-plugin.version>3.5.2</surefire-plugin.version>
-  </properties>
 
   <dependencies>
     <!-- #################### DEV DEPENDENCIES #################### -->
@@ -75,6 +52,10 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-validator</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-oidc</artifactId>
+    </dependency>
 
     <!-- #################### TEST DEPENDENCIES #################### -->
     <dependency>
@@ -90,14 +71,17 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-vavr</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.tngtech.archunit</groupId>
       <artifactId>archunit-junit5</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -127,6 +111,16 @@
     <dependency>
       <groupId>net.javacrumbs.json-unit</groupId>
       <artifactId>json-unit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-test-security</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-test-security-jwt</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

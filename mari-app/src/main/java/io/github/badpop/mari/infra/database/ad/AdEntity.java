@@ -1,4 +1,4 @@
-package io.github.badpop.mari.infra.database.model.ad;
+package io.github.badpop.mari.infra.database.ad;
 
 import io.github.badpop.mari.domain.control.MariFail;
 import io.github.badpop.mari.domain.control.MariFail.ResourceNotFoundFail;
@@ -7,8 +7,9 @@ import io.github.badpop.mari.domain.control.Page;
 import io.github.badpop.mari.domain.model.ad.Ad;
 import io.github.badpop.mari.domain.model.ad.AdType;
 import io.github.badpop.mari.domain.model.ad.AdSummary;
-import io.github.badpop.mari.infra.database.model.MariEntity;
-import io.github.badpop.mari.infra.database.model.ad.projection.AdEntitySummaryProjection;
+import io.github.badpop.mari.infra.database.MariEntity;
+import io.github.badpop.mari.infra.database.ad.projection.AdEntitySummaryProjection;
+import io.github.badpop.mari.infra.database.user.UserEntity;
 import io.quarkus.logging.Log;
 import io.vavr.API;
 import io.vavr.control.Either;
@@ -20,6 +21,7 @@ import org.hibernate.annotations.NaturalIdCache;
 
 import static io.vavr.API.*;
 import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
 import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_ONLY;
 
 @Getter
@@ -30,8 +32,8 @@ import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_ONLY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ad",
-        indexes = {@Index(name = "ad_id", columnList = "id")},
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+        indexes = {@Index(name = "ad_id_idx", columnList = "id")},
+        uniqueConstraints = {@UniqueConstraint(name = "ad_id_uc", columnNames = {"id"})})
 @ToString(callSuper = true)
 @NamedQueries({
         @NamedQuery(name = "AdEntity.findAll", query = "from AdEntity"),
@@ -42,6 +44,9 @@ public class AdEntity extends MariEntity<AdEntity, Ad> {
   @NaturalId
   @Column(nullable = false, updatable = false)
   private String id;
+
+  @ManyToOne(fetch = LAZY, optional = false)
+  private UserEntity user;
 
   @Column(nullable = false, length = 80)
   private String name;
@@ -68,19 +73,6 @@ public class AdEntity extends MariEntity<AdEntity, Ad> {
   @Column(name = "price_per_square_meter")
   private Double pricePerSquareMeter;
 
-  public static AdEntity fromDomain(Ad domain) {
-    return new AdEntity(
-            domain.id(),
-            domain.name(),
-            domain.url(),
-            domain.type(),
-            domain.price(),
-            domain.description().getOrNull(),
-            domain.remarks().getOrNull(),
-            domain.address().getOrNull(),
-            domain.pricePerSquareMeter().getOrNull());
-  }
-
   @Override
   public Ad toDomain() {
     return new Ad(
@@ -93,6 +85,20 @@ public class AdEntity extends MariEntity<AdEntity, Ad> {
             Option(remarks),
             Option(address),
             Option(pricePerSquareMeter));
+  }
+
+  public static AdEntity fromDomain(Ad domain, UserEntity userEntity) {
+    return new AdEntity(
+            domain.id(),
+            userEntity,
+            domain.name(),
+            domain.url(),
+            domain.type(),
+            domain.price(),
+            domain.description().getOrNull(),
+            domain.remarks().getOrNull(),
+            domain.address().getOrNull(),
+            domain.pricePerSquareMeter().getOrNull());
   }
 
   public static Either<MariFail, AdEntity> findById(String id) {

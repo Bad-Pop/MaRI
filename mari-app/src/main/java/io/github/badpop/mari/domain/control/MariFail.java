@@ -82,4 +82,16 @@ public sealed interface MariFail extends Fail {
       return INFO;
     }
   }
+
+  record UnauthorizedFail() implements MariFail {
+    @Override
+    public String code() {
+      return "UNAUTHORIZED_FAILURE";
+    }
+
+    @Override
+    public String message() {
+      return "This action is not authorised.";
+    }
+  }
 }

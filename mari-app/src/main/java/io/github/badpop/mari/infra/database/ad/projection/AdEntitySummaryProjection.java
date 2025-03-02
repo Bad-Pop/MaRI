@@ -1,8 +1,8 @@
-package io.github.badpop.mari.infra.database.model.ad.projection;
+package io.github.badpop.mari.infra.database.ad.projection;
 
 import io.github.badpop.mari.domain.model.ad.AdType;
 import io.github.badpop.mari.domain.model.ad.AdSummary;
-import io.github.badpop.mari.infra.database.model.MariProjection;
+import io.github.badpop.mari.infra.database.MariProjection;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection

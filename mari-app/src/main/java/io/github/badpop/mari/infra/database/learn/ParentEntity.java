@@ -1,9 +1,9 @@
-package io.github.badpop.mari.infra.database.model.learn;
+package io.github.badpop.mari.infra.database.learn;
 
 import static jakarta.persistence.CascadeType.ALL;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import io.github.badpop.mari.infra.database.model.MariEntity;
+import io.github.badpop.mari.infra.database.MariEntity;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

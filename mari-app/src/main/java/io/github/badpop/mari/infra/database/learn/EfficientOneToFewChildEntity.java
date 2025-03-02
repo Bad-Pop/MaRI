@@ -1,7 +1,7 @@
-package io.github.badpop.mari.infra.database.model.learn;
+package io.github.badpop.mari.infra.database.learn;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import io.github.badpop.mari.infra.database.model.MariEntity;
+import io.github.badpop.mari.infra.database.MariEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
