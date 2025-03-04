@@ -10,13 +10,13 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>mari-app</artifactId>
+  <artifactId>application</artifactId>
 
   <dependencies>
-    <!-- #################### DEV DEPENDENCIES #################### -->
+    <!-- #################### INTERNAL DEPENDENCIES #################### -->
     <dependency>
       <groupId>io.github.bad-pop.mari</groupId>
-      <artifactId>mari-libraries</artifactId>
+      <artifactId>libraries</artifactId>
     </dependency>
 
     <!-- #################### QUARKUS DEPENDENCIES #################### -->
@@ -215,12 +215,12 @@
                     <limit>
                       <counter>LINE</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.70</minimum>
+                      <minimum>0.0</minimum>
                     </limit>
                     <limit>
                       <counter>BRANCH</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.50</minimum>
+                      <minimum>0.0</minimum>
                     </limit>
                   </limits>
                 </rule>

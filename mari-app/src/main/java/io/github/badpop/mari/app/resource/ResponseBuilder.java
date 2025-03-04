@@ -45,6 +45,8 @@ public interface ResponseBuilder {
       //Persistence fails
       case ResourceNotFoundFail ignored -> Response.noContent();
       case NoResourceFoundFail ignored -> Response.noContent();
+      //Unauthorized
+      case UnauthorizedFail ignored -> Response.status(401);
       //Technical fails
       //  On ne retourne pas d'infos détaillées des TechnicalFails car elles peuvent contenir des infos sensibles
       case TechnicalFail ignored -> Response.serverError().entity(TECHNICAL_FAIL_ENTITY);
