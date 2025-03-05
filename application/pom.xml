@@ -19,6 +19,12 @@
       <artifactId>libraries</artifactId>
     </dependency>
 
+    <!-- #################### DEV DEPENDENCIES #################### -->
+    <dependency>
+      <groupId>com.flipkart.zjsonpatch</groupId>
+      <artifactId>zjsonpatch</artifactId>
+    </dependency>
+
     <!-- #################### QUARKUS DEPENDENCIES #################### -->
     <dependency>
       <groupId>io.quarkus</groupId>

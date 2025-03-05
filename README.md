@@ -30,3 +30,17 @@ une suite d'outils adaptés et utiles dans la phase recherches.
 - Liquibase
 - TestContainer
 - Docker
+
+## Lancer l'application en local
+
+Pour lacer l'appli en local, il faut rajouter un fichier .env à la racine du module `application` avec les propriétés suivantes :
+```properties
+mari.oidc.auth-server-url=
+mari.oidc.client-id=
+mari.oidc.client-secret=
+
+test-username=
+test-password=
+```
+Il faut ensuite lancer le docker-compose à la racine du projet.
+Enfin, démarrer l'application avec le profil `dev`.

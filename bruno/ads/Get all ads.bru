@@ -1,16 +1,11 @@
 meta {
   name: Get all ads
   type: http
-  seq: 1
+  seq: 3
 }
 
 get {
-  url: {{url}}/ads?page=0&limit=10
+  url: {{url}}/ads
   body: none
   auth: none
-}
-
-params:query {
-  page: 0
-  limit: 10
 }

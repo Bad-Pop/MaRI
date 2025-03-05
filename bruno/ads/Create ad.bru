@@ -1,0 +1,23 @@
+meta {
+  name: Create ad
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/ads
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Annonce de test",
+    "url": "https://mari.fr/ads/123456789",
+    "price": 150990.0,
+    "type": "SALE",
+    "description": null,
+    "remarks": null,
+    "address": null
+  }
+}

@@ -15,7 +15,7 @@ import java.util.UUID;
 import static io.vavr.API.Option;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
-import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_ONLY;
+import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
 
 @Entity
 @Getter
@@ -23,7 +23,7 @@ import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_ONLY;
 @NaturalIdCache
 @NoArgsConstructor
 @AllArgsConstructor
-@Cache(usage = READ_ONLY)
+@Cache(usage = READ_WRITE)
 @ToString(callSuper = true)
 @Table(
         name = "ad",

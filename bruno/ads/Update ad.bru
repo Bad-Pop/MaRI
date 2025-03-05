@@ -1,0 +1,27 @@
+meta {
+  name: Update ad
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{url}}/ads/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 4cb333de-071b-48a9-aad1-92855d8b90fd
+}
+
+headers {
+  Content-Type: application/json-patch+json
+}
+
+body:json {
+  [
+    {"op": "remove", "path": "/description", "value": "Test description with update 2"},
+    {"op": "remove", "path": "/remarks", "value": "Test remarks with update"},
+    {"op": "replace", "path": "/price", "value": 190520.90}
+  ]
+}
