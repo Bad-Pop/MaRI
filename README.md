@@ -12,6 +12,7 @@ une suite d'outils adaptés et utiles dans la phase recherches.
 | Gestion d'annonces                                 | Gérer des annonces favorites                                                                           | 🟢            |
 | Partage d'annonces                                 | Partager des annonces à d'autres personnes non authentifiées                                           | 🟢            |
 | Gestion d'adresses en GeoJson                      | Pouvoir gérer des adresses avec le standard GeoJson                                                    | 🟠            |
+| Documentation OpenAPI                              | Mettre en place la documentation OpenAPI des ressources                                                | 🔴            |
 | Enrichir une annonce sauvegardée avec des critères | Permettre d'ajouter des critères à une annonce. ex : le mode de chauffage                              | 🔴            |
 | Extraire les données d'une annonce                 | Permettre de sauvegarder des annonces en extrayant leurs données depuis le site d'origine              | 🔴            |
 | Extraire les images d'une annonce                  | Permettre lors de l'extracton des données d'une annonce de récupérer les liens des images de l'annonce | 🔴            |
