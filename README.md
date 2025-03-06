@@ -11,6 +11,8 @@ une suite d'outils adaptés et utiles dans la phase recherches.
 | Authentification avec Auth0                        |                                                                                                        | 🟢            |
 | Gestion d'annonces                                 | Gérer des annonces favorites                                                                           | 🟢            |
 | Partage d'annonces                                 | Partager des annonces à d'autres personnes non authentifiées                                           | 🟢            |
+| Calculer les mensualités d'un crédit               |                                                                                                        | 🟢            |
+| Calculer sa capacité d'emprunt                     |                                                                                                        | 🟢            |
 | Gestion d'adresses en GeoJson                      | Pouvoir gérer des adresses avec le standard GeoJson                                                    | 🟠            |
 | Documentation OpenAPI                              | Mettre en place la documentation OpenAPI des ressources                                                | 🔴            |
 | Enrichir une annonce sauvegardée avec des critères | Permettre d'ajouter des critères à une annonce. ex : le mode de chauffage                              | 🔴            |
