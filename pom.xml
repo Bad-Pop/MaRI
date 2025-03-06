@@ -22,7 +22,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <quarkus.platform.version>3.18.4</quarkus.platform.version>
+    <quarkus.platform.version>3.19.1</quarkus.platform.version>
 
     <vavr.version>0.10.6</vavr.version>
     <vavr-jackason.version>0.10.3</vavr-jackason.version>
