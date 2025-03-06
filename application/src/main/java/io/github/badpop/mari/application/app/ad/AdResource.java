@@ -81,6 +81,7 @@ public class AdResource {
 
   @POST
   @Path("/{id}/share")
+  @Consumes(APPLICATION_JSON)
   public Response shareAdById(@HeaderParam(value = CORRELATION_ID) String correlationId,
                               @PathParam("id") @NotNull UUID id,
                               @Valid @NotNull AdSharingParametersApiSchema parameters) {

@@ -66,6 +66,14 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-scheduler</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkiverse.bucket4j</groupId>
+      <artifactId>quarkus-bucket4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>de.grundid.opendatalab</groupId>
+      <artifactId>geojson-jackson</artifactId>
+    </dependency>
 
     <!-- #################### TEST DEPENDENCIES #################### -->
     <dependency>

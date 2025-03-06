@@ -28,6 +28,8 @@
     <vavr-jackason.version>0.10.3</vavr-jackason.version>
     <lombok.version>1.18.36</lombok.version>
     <zjsonpatch.version>0.4.16</zjsonpatch.version>
+    <quarkus-bucket4j.version>1.0.4</quarkus-bucket4j.version>
+    <geojson-jackson.version>1.14</geojson-jackson.version>
 
     <assertj-core.version>3.27.3</assertj-core.version>
     <assertj-vavr.version>0.4.3</assertj-vavr.version>
@@ -67,6 +69,17 @@
         <groupId>com.flipkart.zjsonpatch</groupId>
         <artifactId>zjsonpatch</artifactId>
         <version>${zjsonpatch.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.quarkiverse.bucket4j</groupId>
+        <artifactId>quarkus-bucket4j</artifactId>
+        <version>${quarkus-bucket4j.version}</version>
+      </dependency>
+      <dependency>
+        <!--https://github.com/opendatalab-de/geojson-jackson/tree/master-->
+        <groupId>de.grundid.opendatalab</groupId>
+        <artifactId>geojson-jackson</artifactId>
+        <version>${geojson-jackson.version}</version>
       </dependency>
 
 
