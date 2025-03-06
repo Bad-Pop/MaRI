@@ -7,14 +7,15 @@ une suite d'outils adaptés et utiles dans la phase recherches.
 ## Fonctionnalités
 
 | Nom                                                | Description                                                                                            | Disponibilité |
-|----------------------------------------------------|--------------------------------------------------------------------------------------------------------|--------------|
-| Sauvegarde d'annonces                              | Sauvegarder des annonces pour les retrouver facilement                                                 | 🟠           |
-| Sécuriser les appels à l'api                       | Sécuriser les appels avec des tokens                                                                   | 🔴           |
-| Enrichir une annonce sauvegardée avec des critères | Permettre d'ajouter des critères à une annonce. ex : le mode de chauffage                              | 🔴           |
-| Partage d'annonces sauvegardées                    | Partager un lien temporaire ou éternel vers une annonce sauvegardée                                    | 🔴           |
-| Extraire les données d'une annonce                 | Permettre de sauvegarder des annonces en extrayant leurs données depuis le site d'origine              | 🔴           |
-| Extraire les images d'une annonce                  | Permettre lors de l'extracton des données d'une annonce de récupérer les liens des images de l'annonce | 🔴           |
-| Recherche d'informations cadastrales               | Rechercher des informations dans le cadastre du bien et autour                                         | 🔴           |
+|----------------------------------------------------|--------------------------------------------------------------------------------------------------------|---------------|
+| Authentification avec Auth0                        |                                                                                                        | 🟢            |
+| Gestion d'annonces                                 | Gérer des annonces favorites                                                                           | 🟢            |
+| Partage d'annonces                                 | Partager des annonces à d'autres personnes non authentifiées                                           | 🟢            |
+| Gestion d'adresses en GeoJson                      | Pouvoir gérer des adresses avec le standard GeoJson                                                    | 🟠            |
+| Enrichir une annonce sauvegardée avec des critères | Permettre d'ajouter des critères à une annonce. ex : le mode de chauffage                              | 🔴            |
+| Extraire les données d'une annonce                 | Permettre de sauvegarder des annonces en extrayant leurs données depuis le site d'origine              | 🔴            |
+| Extraire les images d'une annonce                  | Permettre lors de l'extracton des données d'une annonce de récupérer les liens des images de l'annonce | 🔴            |
+| Recherche d'informations cadastrales               | Rechercher des informations dans le cadastre ou dans le dvf du bien et autour                          | 🔴            |
 
 ## Stack technique
 
@@ -34,13 +35,14 @@ une suite d'outils adaptés et utiles dans la phase recherches.
 ## Lancer l'application en local
 
 Pour lacer l'appli en local, il faut rajouter un fichier .env à la racine du module `application` avec les propriétés suivantes :
+
 ```properties
 mari.oidc.auth-server-url=
 mari.oidc.client-id=
 mari.oidc.client-secret=
-
 test-username=
 test-password=
 ```
+
 Il faut ensuite lancer le docker-compose à la racine du projet.
 Enfin, démarrer l'application avec le profil `dev`.
