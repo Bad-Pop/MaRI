@@ -1,0 +1,22 @@
+meta {
+  name: Share ad by id
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{url}}/ads/:id/share
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 7143ddc6-2bc0-4c1f-aca4-139da24a1ef2
+}
+
+body:json {
+  {
+    "expires": false,
+    "expireAt": null
+  }
+}

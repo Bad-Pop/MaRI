@@ -2,6 +2,7 @@ package io.github.badpop.mari.application.infra.database.ad;
 
 import io.github.badpop.mari.application.domain.ad.model.Ad;
 import io.github.badpop.mari.application.domain.ad.port.AdCreatorSpi;
+import io.github.badpop.mari.application.domain.ad.port.AdDeleterSpi;
 import io.github.badpop.mari.application.domain.ad.port.AdFinderSpi;
 import io.github.badpop.mari.application.domain.ad.port.AdUpdaterSpi;
 import io.github.badpop.mari.application.domain.control.MariFail;
@@ -25,7 +26,7 @@ import static io.vavr.API.*;
 
 @Singleton
 @RequiredArgsConstructor
-public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi {
+public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi, AdDeleterSpi {
 
   private final CurrentUserEntityProvider userEntityProvider;
   private final AdRepository repository;
@@ -61,6 +62,15 @@ public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi {
             .peekLeft(fail -> Log.error(fail.asLog()));
   }
 
+  @Override
+  @Transactional
+  public Either<MariFail, Void> deleteAdById(UUID id) {
+    return userEntityProvider.withCurrentUserEntity()
+            .flatMap(currentUserEntity -> retrieveAdEntityByIdAndUser(id, currentUserEntity.getId()))
+            .flatMap(this::deleteAd)
+            .peekLeft(fail -> Log.error(fail.asLog()));
+  }
+
   private Either<MariFail, Ad> persistAdForUser(Ad ad, UserEntity currentUserEntity) {
     val adEntity = AdEntity.fromDomain(ad, currentUserEntity);
     return repository.persistIfAbsent(adEntity)
@@ -86,7 +96,7 @@ public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi {
             });
   }
 
-  private Either<MariFail, AdEntity> retrieveAdEntityByIdAndUser(UUID adId, String userId) {
+  public Either<MariFail, AdEntity> retrieveAdEntityByIdAndUser(UUID adId, String userId) {
     return repository.findByIdAndUser(adId, userId)
             .toEither()
             .<MariFail>mapLeft(t -> new TechnicalFail("An error occurred, unable to retrieve ad by id=" + adId, t))
@@ -120,6 +130,15 @@ public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi {
       return Right(updatedAdEntity);
     } catch (Exception e) {
       return Left(new TechnicalFail("Unable to persist updated ad entity...", e));
+    }
+  }
+
+  private Either<MariFail, Void> deleteAd(AdEntity adEntity) {
+    try {
+      repository.delete(adEntity);
+      return Right(null);
+    } catch (Exception e) {
+      return Left(new TechnicalFail("Unable to delete ad with id=" + adEntity.getId(), e));
     }
   }
 }

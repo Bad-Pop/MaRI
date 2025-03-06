@@ -3,6 +3,9 @@ package io.github.badpop.mari.application.app.ad;
 import io.github.badpop.mari.application.app.ResponseBuilder;
 import io.github.badpop.mari.application.app.ad.model.AdApiSchema;
 import io.github.badpop.mari.application.app.ad.model.AdCreationApiSchema;
+import io.github.badpop.mari.application.app.ad.model.shared.AdSharingParametersApiSchema;
+import io.github.badpop.mari.application.app.ad.model.shared.SharedAdApiSchema;
+import io.github.badpop.mari.application.app.ad.model.shared.SharedAdCreatedApiSchema;
 import io.github.badpop.mari.application.app.model.UpdateOperationApiSchema;
 import io.github.badpop.mari.application.domain.ad.port.AdApi;
 import io.quarkus.security.Authenticated;
@@ -70,6 +73,35 @@ public class AdResource {
             .fold(ResponseBuilder::fail, ResponseBuilder::ok);
   }
 
-  //TODO ADD ENDPOINT TO DELETE AD BY ID
-  //TODO ADD ENDPOINT TO SHARE AD
+  @DELETE
+  @Path("/{id}")
+  public Response deleteById(@HeaderParam(value = CORRELATION_ID) String correlationId, @PathParam("id") @NotNull UUID id) {
+    return api.deleteAdById(id).fold(ResponseBuilder::fail, ResponseBuilder::accepted);
+  }
+
+  @POST
+  @Path("/{id}/share")
+  public Response shareAdById(@HeaderParam(value = CORRELATION_ID) String correlationId,
+                              @PathParam("id") @NotNull UUID id,
+                              @Valid @NotNull AdSharingParametersApiSchema parameters) {
+    val domainParameters = parameters.toDomain();
+    return api.shareAdById(id, domainParameters)
+            .map(SharedAdCreatedApiSchema::fromDomain)
+            .fold(ResponseBuilder::fail, ResponseBuilder::ok);
+  }
+
+  @GET
+  @Path("/shared")
+  public Response findAllSharedAds(@HeaderParam(value = CORRELATION_ID) String correlationId) {
+    return api.findAllSharedAds()
+            .map(sharedAds -> sharedAds.map(SharedAdApiSchema::fromDomain))
+            .fold(ResponseBuilder::fail, ResponseBuilder::ok);
+  }
+
+  @DELETE
+  @Path("/{id}/shared")
+  public Response deleteSharedAdById(@HeaderParam(value = CORRELATION_ID) String correlationId,
+                                     @PathParam("id") @NotNull UUID id) {
+    return api.deleteSharedAdById(id).fold(ResponseBuilder::fail, ResponseBuilder::accepted);
+  }
 }

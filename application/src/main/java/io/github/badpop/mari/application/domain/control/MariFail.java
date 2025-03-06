@@ -21,6 +21,18 @@ public sealed interface MariFail extends Fail {
     }
   }
 
+  record ExpiredSharedAdFail() implements MariFail {
+    @Override
+    public String code() {
+      return "EXPIRED_SHARED_AD_FAILURE";
+    }
+
+    @Override
+    public String message() {
+      return "Le partage de cette annonce est expiré. Rapprochez vous de la personne pour qu'elle vous partage cette annonce à nouveau.";
+    }
+  }
+
   record ForbiddenPatchOperationFail(String forbiddenOperationField) implements MariFail {
     @Override
     public String code() {
@@ -30,6 +42,13 @@ public sealed interface MariFail extends Fail {
     @Override
     public String message() {
       return "Vous ne pouvez pas mettre à jour le champs %s".formatted(forbiddenOperationField);
+    }
+  }
+
+  record InvalidRequestFail(String message) implements MariFail {
+    @Override
+    public String code() {
+      return "INVALID_REQUEST_FAILURE";
     }
   }
 

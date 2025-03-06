@@ -6,6 +6,7 @@ import io.github.badpop.mari.application.domain.control.MariFail;
 import io.github.badpop.mari.application.domain.control.MariFail.*;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
+import jakarta.validation.constraints.Null;
 import jakarta.ws.rs.core.Response;
 import lombok.val;
 
@@ -22,12 +23,12 @@ public interface ResponseBuilder {
           ]
           """;
 
-  static Response ok() {
-    return Response.ok().build();
-  }
-
   static <T> Response ok(T body) {
     return Response.ok(body).build();
+  }
+
+  static <T> Response accepted(@Null T nullBody) {
+    return Response.accepted().build();
   }
 
   static Response fail(MariFail fail) {
@@ -35,6 +36,8 @@ public interface ResponseBuilder {
     return switch (fail) {
       //Ads fails
       case InvalidAdUrlFail ignored -> Response.status(400).entity(entity).build();
+      //Shared ads fails
+      case ExpiredSharedAdFail ignored -> Response.status(400).entity(entity).build();
       //Home Loan calculator fails
       case HomeLoanMonthlyPaymentFail ignored -> Response.serverError().entity(entity).build();
       case HomeLoanBorrowingCapacityFail ignored -> Response.serverError().entity(entity).build();
@@ -42,6 +45,7 @@ public interface ResponseBuilder {
       case UnauthorizedFail ignored -> Response.status(401).build();
       case ResourceNotFoundFail ignored -> Response.noContent().build();
       case ForbiddenPatchOperationFail ignored -> Response.status(400).entity(entity).build();
+      case InvalidRequestFail ignored -> Response.status(400).entity(entity).build();
       case TechnicalFail ignored -> Response.serverError().entity(DEFAULT_TECHNICAL_FAIL_BODY).build();
     };
   }
