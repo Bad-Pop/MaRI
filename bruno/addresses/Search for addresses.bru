@@ -1,0 +1,17 @@
+meta {
+  name: Search for addresses
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/addresses/search?q=rue de la paix&postCode&type=street
+  body: none
+  auth: none
+}
+
+params:query {
+  q: rue de la paix
+  postCode: 
+  type: street
+}

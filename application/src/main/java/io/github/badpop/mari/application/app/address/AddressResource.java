@@ -28,7 +28,8 @@ public class AddressResource {
   public Response search(@QueryParam("q") @NotBlank String searchQuery,
                          @QueryParam("postCode") Integer postCode,
                          @QueryParam("type") String type) {
-    FeatureCollection features;//TODO IMPLEMENTS
+    //TODO IMPLEMENTS
+    FeatureCollection features;
     return null;
   }
 }
