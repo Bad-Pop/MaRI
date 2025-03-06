@@ -43,3 +43,7 @@ nb-configuration.xml
 /.quarkus/cli/plugins/
 # TLS Certificates
 .certs/
+
+# Base adresse nationale
+./base-adresse-nationale/addok-france-bundle.zip
+./base-adresse-nationale/addok-data

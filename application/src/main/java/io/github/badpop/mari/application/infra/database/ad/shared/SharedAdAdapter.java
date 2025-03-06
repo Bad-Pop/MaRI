@@ -28,7 +28,6 @@ import java.util.UUID;
 
 import static io.vavr.API.*;
 
-//TODO : CREATE A CRON TASK TO DELETE EXPIRED TASKS
 @Singleton
 @RequiredArgsConstructor
 public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, SharedAdDeleterSpi {
