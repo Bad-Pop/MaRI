@@ -18,7 +18,7 @@ une suite d'outils adaptés et utiles dans la phase recherches.
 | Enrichir une annonce sauvegardée avec des critères | Permettre d'ajouter des critères à une annonce. ex : le mode de chauffage                              | 🔴            |
 | Extraire les données d'une annonce                 | Permettre de sauvegarder des annonces en extrayant leurs données depuis le site d'origine              | 🔴            |
 | Extraire les images d'une annonce                  | Permettre lors de l'extracton des données d'une annonce de récupérer les liens des images de l'annonce | 🔴            |
-| Recherche d'informations cadastrales               | Rechercher des informations dans le cadastre ou dans le dvf du bien et autour                          | 🔴            |
+| Recherche d'informations cadastrales et DVF        | Rechercher des informations dans le cadastre ou dans le dvf du bien et autour                          | 🔴            |
 
 ## Stack technique
 

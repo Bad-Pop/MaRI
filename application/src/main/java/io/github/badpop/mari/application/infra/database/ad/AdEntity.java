@@ -1,5 +1,6 @@
 package io.github.badpop.mari.application.infra.database.ad;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.badpop.mari.application.domain.ad.model.Ad;
 import io.github.badpop.mari.application.domain.ad.model.AdType;
 import io.github.badpop.mari.application.infra.database.MariEntityBase;
@@ -49,6 +50,7 @@ public class AdEntity extends MariEntityBase<AdEntity, Ad> {
   @Column(nullable = false, updatable = false)
   private UUID id;
 
+  @JsonIgnore
   @ManyToOne(fetch = LAZY)
   //On utilise l'id fonctionnel pour la jointure, pour éviter un appel supplémentaire en base
   @JoinColumn(name = "user_id", referencedColumnName = "id")
