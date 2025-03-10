@@ -1,4 +1,4 @@
-package io.github.badpop.mari.application.infra.database.ad.shared;
+package io.github.badpop.mari.application.infra.postgres.ad.shared;
 
 import io.quarkus.logging.Log;
 import io.quarkus.scheduler.Scheduled;

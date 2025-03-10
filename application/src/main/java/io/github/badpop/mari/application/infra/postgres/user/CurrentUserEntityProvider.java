@@ -1,4 +1,4 @@
-package io.github.badpop.mari.application.infra.database.user;
+package io.github.badpop.mari.application.infra.postgres.user;
 
 import io.github.badpop.mari.application.domain.control.MariFail;
 import io.github.badpop.mari.application.domain.control.MariFail.TechnicalFail;

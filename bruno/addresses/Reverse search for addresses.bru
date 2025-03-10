@@ -1,0 +1,16 @@
+meta {
+  name: Reverse search for addresses
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/addresses/search?longitude=0&latitude=0
+  body: none
+  auth: none
+}
+
+params:query {
+  longitude: 0
+  latitude: 0
+}

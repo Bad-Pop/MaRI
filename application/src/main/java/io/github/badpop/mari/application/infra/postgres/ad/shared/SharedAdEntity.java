@@ -1,10 +1,10 @@
-package io.github.badpop.mari.application.infra.database.ad.shared;
+package io.github.badpop.mari.application.infra.postgres.ad.shared;
 
 import io.github.badpop.mari.application.domain.ad.control.AdSharingParameters;
 import io.github.badpop.mari.application.domain.ad.model.shared.SharedAd;
-import io.github.badpop.mari.application.infra.database.MariEntityBase;
-import io.github.badpop.mari.application.infra.database.ad.AdEntity;
-import io.github.badpop.mari.application.infra.database.user.UserEntity;
+import io.github.badpop.mari.application.infra.postgres.MariEntityBase;
+import io.github.badpop.mari.application.infra.postgres.ad.AdEntity;
+import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cache;

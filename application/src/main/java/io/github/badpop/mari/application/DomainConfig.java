@@ -7,6 +7,10 @@ import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdApi;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdCreatorSpi;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdDeleterSpi;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdFinderSpi;
+import io.github.badpop.mari.application.domain.address.AddressSearchApi;
+import io.github.badpop.mari.application.domain.address.AddressSearchSpi;
+import io.github.badpop.mari.application.domain.address.AddressReverseSearchSpi;
+import io.github.badpop.mari.application.domain.address.AddressSearchService;
 import io.github.badpop.mari.application.domain.home.loan.HomeLoanCalculatorService;
 import io.github.badpop.mari.application.domain.home.loan.port.HomeLoanCalculatorApi;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -38,6 +42,12 @@ public class DomainConfig {
   @Singleton
   public SharedAdApi sharedAdApi(SharedAdFinderSpi finderSpi) {
     return new SharedAdService(finderSpi);
+  }
+
+  @Produces
+  @Singleton
+  public AddressSearchApi addressSearchApi(AddressSearchSpi finderSpi, AddressReverseSearchSpi reverseFinderSpi) {
+    return new AddressSearchService(finderSpi, reverseFinderSpi);
   }
 
   @Produces

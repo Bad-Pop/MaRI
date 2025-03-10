@@ -1,7 +1,7 @@
 package io.github.badpop.mari.application.generators;
 
-import io.github.badpop.mari.application.infra.database.ad.AdEntity;
-import io.github.badpop.mari.application.infra.database.user.UserEntity;
+import io.github.badpop.mari.application.infra.postgres.ad.AdEntity;
+import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
 
 import java.util.UUID;
 

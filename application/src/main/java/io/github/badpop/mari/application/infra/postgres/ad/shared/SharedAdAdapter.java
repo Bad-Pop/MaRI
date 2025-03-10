@@ -1,4 +1,4 @@
-package io.github.badpop.mari.application.infra.database.ad.shared;
+package io.github.badpop.mari.application.infra.postgres.ad.shared;
 
 import io.github.badpop.mari.application.domain.ad.control.AdSharingParameters;
 import io.github.badpop.mari.application.domain.ad.model.shared.SharedAd;
@@ -11,10 +11,10 @@ import io.github.badpop.mari.application.domain.control.MariFail.ExpiredSharedAd
 import io.github.badpop.mari.application.domain.control.MariFail.InvalidRequestFail;
 import io.github.badpop.mari.application.domain.control.MariFail.ResourceNotFoundFail;
 import io.github.badpop.mari.application.domain.control.MariFail.TechnicalFail;
-import io.github.badpop.mari.application.infra.database.ad.AdAdapter;
-import io.github.badpop.mari.application.infra.database.ad.AdEntity;
-import io.github.badpop.mari.application.infra.database.user.CurrentUserEntityProvider;
-import io.github.badpop.mari.application.infra.database.user.UserEntity;
+import io.github.badpop.mari.application.infra.postgres.ad.AdAdapter;
+import io.github.badpop.mari.application.infra.postgres.ad.AdEntity;
+import io.github.badpop.mari.application.infra.postgres.user.CurrentUserEntityProvider;
+import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
 import io.quarkus.logging.Log;
 import io.vavr.collection.Seq;
 import io.vavr.control.Either;

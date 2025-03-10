@@ -1,4 +1,4 @@
-package io.github.badpop.mari.application.infra.database.ad;
+package io.github.badpop.mari.application.infra.postgres.ad;
 
 import io.github.badpop.mari.application.domain.ad.model.Ad;
 import io.github.badpop.mari.application.domain.ad.port.AdCreatorSpi;
@@ -9,9 +9,9 @@ import io.github.badpop.mari.application.domain.control.MariFail;
 import io.github.badpop.mari.application.domain.control.MariFail.ResourceNotFoundFail;
 import io.github.badpop.mari.application.domain.control.MariFail.TechnicalFail;
 import io.github.badpop.mari.application.domain.patch.UpdateOperation;
-import io.github.badpop.mari.application.infra.database.EntityUpdateOperationsApplier;
-import io.github.badpop.mari.application.infra.database.user.CurrentUserEntityProvider;
-import io.github.badpop.mari.application.infra.database.user.UserEntity;
+import io.github.badpop.mari.application.infra.postgres.EntityUpdateOperationsApplier;
+import io.github.badpop.mari.application.infra.postgres.user.CurrentUserEntityProvider;
+import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
 import io.quarkus.logging.Log;
 import io.vavr.collection.Seq;
 import io.vavr.control.Either;

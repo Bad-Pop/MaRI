@@ -1,4 +1,4 @@
-package io.github.badpop.mari.application.infra.database;
+package io.github.badpop.mari.application.infra.postgres;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.GeneratedValue;

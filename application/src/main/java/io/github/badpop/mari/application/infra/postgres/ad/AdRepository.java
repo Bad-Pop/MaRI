@@ -1,8 +1,8 @@
-package io.github.badpop.mari.application.infra.database.ad;
+package io.github.badpop.mari.application.infra.postgres.ad;
 
 import io.github.badpop.mari.application.domain.ad.model.Ad;
-import io.github.badpop.mari.application.infra.database.MariRepositoryBase;
-import io.github.badpop.mari.application.infra.database.user.UserEntity;
+import io.github.badpop.mari.application.infra.postgres.MariRepositoryBase;
+import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Parameters;
 import io.vavr.API;

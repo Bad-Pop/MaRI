@@ -1,4 +1,4 @@
-package io.github.badpop.mari.application.infra.database;
+package io.github.badpop.mari.application.infra.postgres;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.vavr.control.Try;

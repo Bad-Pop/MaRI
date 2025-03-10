@@ -1,10 +1,10 @@
-package io.github.badpop.mari.application.infra.database.ad;
+package io.github.badpop.mari.application.infra.postgres.ad;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.badpop.mari.application.domain.ad.model.Ad;
 import io.github.badpop.mari.application.domain.ad.model.AdType;
-import io.github.badpop.mari.application.infra.database.MariEntityBase;
-import io.github.badpop.mari.application.infra.database.user.UserEntity;
+import io.github.badpop.mari.application.infra.postgres.MariEntityBase;
+import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cache;

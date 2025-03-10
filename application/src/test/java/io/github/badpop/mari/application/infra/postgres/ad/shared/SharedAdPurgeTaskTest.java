@@ -1,11 +1,11 @@
-package io.github.badpop.mari.application.infra.database.ad.shared;
+package io.github.badpop.mari.application.infra.postgres.ad.shared;
 
 import io.github.badpop.mari.application.generators.AdEntityGenerator;
 import io.github.badpop.mari.application.DatabaseCleaner;
 import io.github.badpop.mari.application.generators.SharedAdEntityGenerator;
 import io.github.badpop.mari.application.generators.UserEntityGenerator;
-import io.github.badpop.mari.application.infra.database.ad.AdRepository;
-import io.github.badpop.mari.application.infra.database.user.UserRepository;
+import io.github.badpop.mari.application.infra.postgres.ad.AdRepository;
+import io.github.badpop.mari.application.infra.postgres.user.UserRepository;
 import io.github.badpop.mari.libraries.tests.WithSharedPostgres;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;

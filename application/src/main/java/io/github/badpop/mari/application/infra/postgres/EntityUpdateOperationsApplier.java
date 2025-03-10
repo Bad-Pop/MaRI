@@ -1,6 +1,5 @@
-package io.github.badpop.mari.application.infra.database;
+package io.github.badpop.mari.application.infra.postgres;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flipkart.zjsonpatch.JsonPatch;
 import io.github.badpop.mari.application.domain.control.MariFail;

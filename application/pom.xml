@@ -24,6 +24,10 @@
       <groupId>com.flipkart.zjsonpatch</groupId>
       <artifactId>zjsonpatch</artifactId>
     </dependency>
+    <dependency>
+      <groupId>de.grundid.opendatalab</groupId>
+      <artifactId>geojson-jackson</artifactId>
+    </dependency>
 
     <!-- #################### QUARKUS DEPENDENCIES #################### -->
     <dependency>
@@ -71,8 +75,8 @@
       <artifactId>quarkus-bucket4j</artifactId>
     </dependency>
     <dependency>
-      <groupId>de.grundid.opendatalab</groupId>
-      <artifactId>geojson-jackson</artifactId>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-client-jackson</artifactId>
     </dependency>
 
     <!-- #################### TEST DEPENDENCIES #################### -->

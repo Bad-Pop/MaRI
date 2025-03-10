@@ -1,14 +1,13 @@
-package io.github.badpop.mari.application.infra.database.user;
+package io.github.badpop.mari.application.infra.postgres.user;
 
 import io.github.badpop.mari.application.domain.user.User;
-import io.github.badpop.mari.application.infra.database.MariEntityBase;
+import io.github.badpop.mari.application.infra.postgres.MariEntityBase;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
-import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_ONLY;
 import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
 
 @Entity
