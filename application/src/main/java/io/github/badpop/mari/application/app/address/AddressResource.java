@@ -41,7 +41,7 @@ public class AddressResource {
   @Path("/reverse-search")
   @RateLimited(bucket = "search_addresses_bucket")
   public Response reverse(@QueryParam("longitude") @NotNull Double longitude,
-                         @QueryParam("latitude") @NotNull Double latitude) {
+                          @QueryParam("latitude") @NotNull Double latitude) {
     return api.reverseSearch(longitude, latitude)
             .fold(ResponseBuilder::fail, ResponseBuilder::ok);
   }

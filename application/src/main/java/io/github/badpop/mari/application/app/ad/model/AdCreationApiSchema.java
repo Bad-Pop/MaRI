@@ -12,7 +12,7 @@ public record AdCreationApiSchema(@NotBlank String name,
                                   @NotNull AdType type,
                                   Option<String> description,
                                   Option<String> remarks,
-                                  Option<String> address) {
+                                  Option<String> address) {//TODO REFACTOR : USE A MARI GEO CODE JSON FEATURE INSTEAD OF A STRING
 
   public AdCreation toDomain() {
     return new AdCreation(name, url, price, type, description, remarks, address);

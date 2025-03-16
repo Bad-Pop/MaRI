@@ -1,26 +1,53 @@
 package io.github.badpop.mari.application.infra.partner.baseadressenationale;
 
+import io.github.badpop.mari.libraries.geocodejson.MariGeoCodeJsonFeatureCollection;
+import io.quarkus.logging.Log;
+import io.quarkus.rest.client.reactive.runtime.DefaultMicroprofileRestClientExceptionMapper;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.client.ClientResponseContext;
+import jakarta.ws.rs.client.ClientResponseFilter;
+import jakarta.ws.rs.ext.Provider;
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import java.util.Optional;
-
+@RegisterProvider(BanClient.BanClientLogger.class)
 @RegisterRestClient(configKey = "base-adresse-nationale")
+@RegisterProvider(value = DefaultMicroprofileRestClientExceptionMapper.class, priority = 5000)
 public interface BanClient {
 
-  //TODO : PEUT ÊTRE UNE REDIRECTION 304 À GÉRER : https://developer.mozilla.org/fr/docs/Web/HTTP/Status/304
   @GET
   @Path("/search")
-  Response search(@QueryParam("q") String query,
-                  @QueryParam("postCode") Optional<Integer> postCode,
-                  @QueryParam("type") Optional<String> type);
+  MariGeoCodeJsonFeatureCollection search(@QueryParam("q") String query,
+                                          @QueryParam("postCode") Integer postCode,
+                                          @QueryParam("type") String type);
 
-  //TODO : PEUT ÊTRE UNE REDIRECTION 304 À GÉRER : https://developer.mozilla.org/fr/docs/Web/HTTP/Status/304
   @GET
   @Path("/reverse")
-  Response reverse(@QueryParam("lon") double longitude,
-                   @QueryParam("lat") double latitude);
+  MariGeoCodeJsonFeatureCollection reverse(@QueryParam("lon") double longitude,
+                                           @QueryParam("lat") double latitude);
+
+  @Provider
+  class BanClientLogger implements ClientResponseFilter {
+
+    @Override
+    public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) {
+      responseContext.getStatus();
+      responseContext.getHeaders();
+      var log = """
+              Called base-adresse-nationale => %s > %s
+                With headers : %s
+               Received response => status: %s
+                  With headers : %s
+              """.formatted(
+              requestContext.getMethod(),
+              requestContext.getUri(),
+              requestContext.getStringHeaders(),
+              responseContext.getStatus(),
+              responseContext.getHeaders());
+      Log.info(log);
+    }
+  }
 }
