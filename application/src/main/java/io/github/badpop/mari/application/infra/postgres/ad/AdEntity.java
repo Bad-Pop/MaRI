@@ -5,6 +5,7 @@ import io.github.badpop.mari.application.domain.ad.model.Ad;
 import io.github.badpop.mari.application.domain.ad.model.AdType;
 import io.github.badpop.mari.application.infra.postgres.MariEntityBase;
 import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
+import io.vavr.control.Option;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cache;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.NaturalIdCache;
 
 import java.util.UUID;
 
+import static io.vavr.API.None;
 import static io.vavr.API.Option;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
@@ -75,14 +77,22 @@ public class AdEntity extends MariEntityBase<AdEntity, Ad> {
   @Column(columnDefinition = "text")
   private String remarks;
 
+  @Column(columnDefinition = "text")
   private String address;
 
   @Override
   public Ad toDomain() {
-    return new Ad(id, name, url, price, type, Option(description), Option(remarks), Option(address));
+    return new Ad(id,
+            name,
+            url,
+            price,
+            type,
+            Option(description),
+            Option(remarks),
+            None());
   }
 
-  public static AdEntity fromDomain(Ad ad, UserEntity owner) {
+  public static AdEntity fromDomain(Ad ad, UserEntity owner, String jsonAddress) {
     return new AdEntity(
             ad.id(),
             owner,
@@ -92,6 +102,6 @@ public class AdEntity extends MariEntityBase<AdEntity, Ad> {
             ad.type(),
             ad.description().getOrNull(),
             ad.remarks().getOrNull(),
-            ad.address().getOrNull());
+            jsonAddress);
   }
 }

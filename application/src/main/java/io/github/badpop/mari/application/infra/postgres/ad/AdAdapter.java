@@ -1,10 +1,13 @@
 package io.github.badpop.mari.application.infra.postgres.ad;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.badpop.mari.application.domain.ad.model.Ad;
 import io.github.badpop.mari.application.domain.ad.port.AdCreatorSpi;
 import io.github.badpop.mari.application.domain.ad.port.AdDeleterSpi;
 import io.github.badpop.mari.application.domain.ad.port.AdFinderSpi;
 import io.github.badpop.mari.application.domain.ad.port.AdUpdaterSpi;
+import io.github.badpop.mari.application.domain.address.model.Address;
 import io.github.badpop.mari.application.domain.control.MariFail;
 import io.github.badpop.mari.application.domain.control.MariFail.ResourceNotFoundFail;
 import io.github.badpop.mari.application.domain.control.MariFail.TechnicalFail;
@@ -15,6 +18,8 @@ import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
 import io.quarkus.logging.Log;
 import io.vavr.collection.Seq;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
+import io.vavr.control.Try;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +36,7 @@ public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi, AdDel
   private final CurrentUserEntityProvider userEntityProvider;
   private final AdRepository repository;
   private final EntityUpdateOperationsApplier updateOperationApplier;
+  private final ObjectMapper objectMapper;
 
   @Override
   @Transactional
@@ -72,15 +78,15 @@ public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi, AdDel
   }
 
   private Either<MariFail, Ad> persistAdForUser(Ad ad, UserEntity currentUserEntity) {
-    val adEntity = AdEntity.fromDomain(ad, currentUserEntity);
-    return repository.persistIfAbsent(adEntity)
+    return fromDomain(ad, currentUserEntity)
+            .flatMapTry(repository::persistIfAbsent)
             .toEither()
             .<MariFail>mapLeft(t -> new TechnicalFail("Unable to create ad with id=%s for user %s".formatted(ad.id(), currentUserEntity.getId()), t))
-            .map(AdEntity::toDomain);
+            .map(this::toDomain);
   }
 
   private Either<MariFail, Ad> retrieveAdByIdAndUser(UUID adId, UserEntity currentUserEntity) {
-    return retrieveAdEntityByIdAndUser(adId, currentUserEntity.getId()).map(AdEntity::toDomain);
+    return retrieveAdEntityByIdAndUser(adId, currentUserEntity.getId()).map(this::toDomain);
   }
 
   private Either<MariFail, Seq<Ad>> retrieveAllAdsForUser(UserEntity currentUserEntity) {
@@ -91,7 +97,7 @@ public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi, AdDel
               if (adEntities.isEmpty()) {
                 return Left(new ResourceNotFoundFail("No ads for this user"));
               } else {
-                return Right(adEntities.map(AdEntity::toDomain));
+                return Right(adEntities.map(this::toDomain));
               }
             });
   }
@@ -111,7 +117,7 @@ public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi, AdDel
             .flatMap(technicalIdAndUpdatedAdEntity ->
                     persistUpdatedAdEntityForUser(technicalIdAndUpdatedAdEntity._1, technicalIdAndUpdatedAdEntity._2, currentUserEntity))
             .peekLeft(fail -> Log.error(fail.asLog()))
-            .map(AdEntity::toDomain);
+            .map(this::toDomain);
   }
 
   private Either<MariFail, AdEntity> persistUpdatedAdEntityForUser(UUID adTechnicalId, AdEntity updatedAdEntity, UserEntity currentUserEntity) {
@@ -139,6 +145,39 @@ public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi, AdDel
       return Right(null);
     } catch (Exception e) {
       return Left(new TechnicalFail("Unable to delete ad with id=" + adEntity.getId(), e));
+    }
+  }
+
+  private Try<AdEntity> fromDomain(Ad ad, UserEntity user) {
+    try {
+      String jsonAddress;
+      if (ad.address().isDefined()) {
+        jsonAddress = objectMapper.writeValueAsString(ad.address().get());
+      } else {
+        jsonAddress = null;
+      }
+
+      return Success(AdEntity.fromDomain(ad, user, jsonAddress));
+    } catch (JsonProcessingException e) {
+      return Failure(e);
+    }
+  }
+
+  private Ad toDomain(AdEntity entity) {
+    var address = deserializeAddress(entity.getAddress());
+    return entity.toDomain().withAddress(address);
+  }
+
+  private Option<Address> deserializeAddress(String jsonAddress) {
+    if (jsonAddress == null) {
+      return None();
+    } else {
+      try {
+        var address = objectMapper.readValue(jsonAddress, Address.class);
+        return Option(address);
+      } catch (JsonProcessingException e) {
+        return None();
+      }
     }
   }
 }

@@ -18,6 +18,6 @@ public interface AdEntityGenerator {
             SALE,
             "description",
             "remarks",
-            "address");
+            null);
   }
 }

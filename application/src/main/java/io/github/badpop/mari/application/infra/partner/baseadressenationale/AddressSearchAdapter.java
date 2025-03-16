@@ -32,19 +32,19 @@ public class AddressSearchAdapter implements AddressSearchSpi, AddressReverseSea
                                                                    Option<Integer> limit) {
     return Try(() -> client.search(correlationId, query, postCode.getOrNull(), type.getOrNull(), limit.getOrNull()))
             .toEither()
-            .mapLeft(this::handleWebApplicationException)
+            .mapLeft(this::handleCallException)
             .peekLeft(fail -> Log.error(fail.asLog()));
   }
 
   @Override
   public Either<MariFail, MariGeoCodeJsonFeatureCollection> reverseSearch(String correlationId, double longitude, double latitude) {
     return Try(() -> client.reverse(correlationId, longitude, latitude))
-            .onFailure(WebApplicationException.class, this::handleWebApplicationException)
             .toEither()
-            .mapLeft(t -> new TechnicalFail("Unable to reverse search for addresses, an error occurred.", t));
+            .mapLeft(this::handleCallException)
+            .peekLeft(fail -> Log.error(fail.asLog()));
   }
 
-  private MariFail handleWebApplicationException(Throwable t) {
+  private MariFail handleCallException(Throwable t) {
     if(t instanceof WebApplicationException wae) {
       val response = wae.getResponse();
 

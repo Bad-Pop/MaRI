@@ -1,11 +1,14 @@
 package io.github.badpop.mari.application.infra.postgres.ad.shared;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.badpop.mari.application.domain.ad.control.AdSharingParameters;
 import io.github.badpop.mari.application.domain.ad.model.shared.SharedAd;
 import io.github.badpop.mari.application.domain.ad.model.shared.SharedAdCreated;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdCreatorSpi;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdDeleterSpi;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdFinderSpi;
+import io.github.badpop.mari.application.domain.address.model.Address;
 import io.github.badpop.mari.application.domain.control.MariFail;
 import io.github.badpop.mari.application.domain.control.MariFail.ExpiredSharedAdFail;
 import io.github.badpop.mari.application.domain.control.MariFail.InvalidRequestFail;
@@ -18,6 +21,7 @@ import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
 import io.quarkus.logging.Log;
 import io.vavr.collection.Seq;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +39,7 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
   private final CurrentUserEntityProvider userEntityProvider;
   private final AdAdapter adAdapter;
   private final SharedAdRepository repository;
+  private final ObjectMapper objectMapper;
 
   @Override
   @Transactional
@@ -54,7 +59,7 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
   @Override
   public Either<MariFail, SharedAd> findById(UUID id) {
     return retrieveSharedAdEntityById(id)
-            .map(SharedAdEntity::toDomain)
+            .map(this::toDomain)
             .peekLeft(fail -> Log.error(fail.asLog()));
   }
 
@@ -115,7 +120,7 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
               if(sharedAdEntities.isEmpty()) {
                 return Left(new ResourceNotFoundFail("Aucune annonce partagée."));
               } else {
-                return Right(sharedAdEntities.map(SharedAdEntity::toDomain));
+                return Right(sharedAdEntities.map(this::toDomain));
               }
             });
   }
@@ -141,6 +146,26 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
       return Right(null);
     } catch (Exception e) {
       return Left(new TechnicalFail("Unable to delete shared ad with id=" + sharedAdToDelete.getId(), e));
+    }
+  }
+
+  private SharedAd toDomain(SharedAdEntity entity) {
+    var adEntity = entity.getAd();
+    var adAddress = deserializeAddress(adEntity.getAddress());
+    var domainAd = adEntity.toDomain().withAddress(adAddress);
+    return new SharedAd(entity.getId(), domainAd, entity.isExpires(), Option(entity.getExpireAt()));
+  }
+
+  private Option<Address> deserializeAddress(String jsonAddress) {
+    if (jsonAddress == null) {
+      return None();
+    } else {
+      try {
+        var address = objectMapper.readValue(jsonAddress, Address.class);
+        return Option(address);
+      } catch (JsonProcessingException e) {
+        return None();
+      }
     }
   }
 }
