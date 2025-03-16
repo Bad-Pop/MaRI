@@ -64,6 +64,7 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
   }
 
   @Override
+  //TODO REFACTOR : USE PAGINATION WITH PROJECTION
   public Either<MariFail, Seq<SharedAd>> findAll() {
     return userEntityProvider.withCurrentUserEntity()
             .flatMap(this::retrieveAllSharedAdsForUser)
@@ -115,7 +116,7 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
   private Either<MariFail, Seq<SharedAd>> retrieveAllSharedAdsForUser(UserEntity currentUserEntity) {
     return repository.findAllByUser(currentUserEntity)
             .toEither()
-            .<MariFail>mapLeft(t -> new TechnicalFail("Unable to retrieve all ads for user with id=" + currentUserEntity.getId(), t))
+            .<MariFail>mapLeft(t -> new TechnicalFail("Unable to retrieve all shared ads for user with id=" + currentUserEntity.getId(), t))
             .flatMap(sharedAdEntities -> {
               if(sharedAdEntities.isEmpty()) {
                 return Left(new ResourceNotFoundFail("Aucune annonce partagée."));

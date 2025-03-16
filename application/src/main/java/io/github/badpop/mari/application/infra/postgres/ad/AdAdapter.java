@@ -54,6 +54,7 @@ public class AdAdapter implements AdCreatorSpi, AdFinderSpi, AdUpdaterSpi, AdDel
   }
 
   @Override
+  //TODO REFACTOR : USE PAGINATION WITH PROJECTION
   public Either<MariFail, Seq<Ad>> findAll() {
     return userEntityProvider.withCurrentUserEntity()
             .flatMap(this::retrieveAllAdsForUser)

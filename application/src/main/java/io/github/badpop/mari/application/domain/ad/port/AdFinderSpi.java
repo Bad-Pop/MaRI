@@ -11,5 +11,6 @@ public interface AdFinderSpi {
 
   Either<MariFail, Ad> findById(UUID id);
 
+  //TODO REFACTOR : USE PAGINATION WITH PROJECTION
   Either<MariFail, Seq<Ad>> findAll();
 }

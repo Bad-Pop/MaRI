@@ -18,6 +18,7 @@ public interface AdApi {
 
   Either<MariFail, Ad> findById(UUID id);
 
+  //TODO REFACTOR : USE PAGINATION WITH PROJECTION
   Either<MariFail, Seq<Ad>> findAll();
 
   Either<MariFail, Ad> updateAdById(UUID id, Seq<UpdateOperation> operations);
@@ -26,6 +27,7 @@ public interface AdApi {
 
   Either<MariFail, SharedAdCreated> shareAdById(UUID id, AdSharingParameters parameters);
 
+  //TODO REFACTOR : USE PAGINATION WITH PROJECTION
   Either<MariFail, Seq<SharedAd>> findAllSharedAds();
 
   Either<MariFail, Void> deleteSharedAdById(UUID id);

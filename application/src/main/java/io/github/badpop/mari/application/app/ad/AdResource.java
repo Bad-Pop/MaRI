@@ -54,6 +54,7 @@ public class AdResource {
             .fold(ResponseBuilder::fail, ResponseBuilder::ok);
   }
 
+  //TODO REFACTOR : USE PAGINATION WITH PROJECTION
   @GET
   public Response findAll(@HeaderParam(value = CORRELATION_ID) String correlationId) {
     return api.findAll()
@@ -93,6 +94,7 @@ public class AdResource {
 
   @GET
   @Path("/shared")
+  //TODO REFACTOR : USE PAGINATION WITH PROJECTION
   public Response findAllSharedAds(@HeaderParam(value = CORRELATION_ID) String correlationId) {
     return api.findAllSharedAds()
             .map(sharedAds -> sharedAds.map(SharedAdApiSchema::fromDomain))

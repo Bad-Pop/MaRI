@@ -80,7 +80,6 @@ public class AdEntity extends MariEntityBase<AdEntity, Ad> {
   @Column(columnDefinition = "text")
   private String address;
 
-  @Override
   public Ad toDomain() {
     return new Ad(id,
             name,

@@ -24,8 +24,6 @@ public abstract class MariEntityBase<ENTITY, DOMAIN> {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID technicalId;
 
-  public abstract DOMAIN toDomain();
-
   @Override
   public String toString() {
     return """

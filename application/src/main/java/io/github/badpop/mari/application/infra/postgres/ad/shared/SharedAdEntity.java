@@ -65,11 +65,6 @@ public class SharedAdEntity extends MariEntityBase<SharedAdEntity, SharedAd> {
 
   private LocalDateTime expireAt;
 
-  @Override
-  public SharedAd toDomain() {
-    return new SharedAd(id, ad.toDomain(), expires, Option(expireAt));
-  }
-
   public static SharedAdEntity from(UUID id, AdEntity ad, UserEntity user, AdSharingParameters parameters) {
     return new SharedAdEntity(id, ad, user, parameters.expires(), parameters.expireAt().getOrNull());
   }

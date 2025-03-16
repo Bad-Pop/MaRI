@@ -36,7 +36,6 @@ public class UserEntity extends MariEntityBase<UserEntity, User> {
   String pictureUrl;
   String email;
 
-  @Override
   public User toDomain() {
     return new User(id, name, nickname, pictureUrl, email);
   }

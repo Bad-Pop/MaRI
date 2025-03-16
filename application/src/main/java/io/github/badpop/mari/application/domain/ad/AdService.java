@@ -46,6 +46,7 @@ public class AdService implements AdApi {
   }
 
   @Override
+  //TODO REFACTOR : USE PAGINATION WITH PROJECTION
   public Either<MariFail, Seq<Ad>> findAll() {
     return finderSpi.findAll();
   }
@@ -70,6 +71,7 @@ public class AdService implements AdApi {
   }
 
   @Override
+  //TODO REFACTOR : USE PAGINATION WITH PROJECTION
   public Either<MariFail, Seq<SharedAd>> findAllSharedAds() {
     return sharedAdFinderSpi.findAll();
   }
