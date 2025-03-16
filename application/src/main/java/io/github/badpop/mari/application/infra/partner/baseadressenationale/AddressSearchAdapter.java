@@ -25,16 +25,20 @@ public class AddressSearchAdapter implements AddressSearchSpi, AddressReverseSea
   }
 
   @Override
-  public Either<MariFail, MariGeoCodeJsonFeatureCollection> search(String query, Option<Integer> postCode, Option<String> type) {
-    return Try(() -> client.search(query, postCode.getOrNull(), type.getOrNull()))
+  public Either<MariFail, MariGeoCodeJsonFeatureCollection> search(String correlationId,
+                                                                   String query,
+                                                                   Option<Integer> postCode,
+                                                                   Option<String> type,
+                                                                   Option<Integer> limit) {
+    return Try(() -> client.search(correlationId, query, postCode.getOrNull(), type.getOrNull(), limit.getOrNull()))
             .toEither()
             .mapLeft(this::handleWebApplicationException)
             .peekLeft(fail -> Log.error(fail.asLog()));
   }
 
   @Override
-  public Either<MariFail, MariGeoCodeJsonFeatureCollection> reverseSearch(double longitude, double latitude) {
-    return Try(() -> client.reverse(longitude, latitude))
+  public Either<MariFail, MariGeoCodeJsonFeatureCollection> reverseSearch(String correlationId, double longitude, double latitude) {
+    return Try(() -> client.reverse(correlationId, longitude, latitude))
             .onFailure(WebApplicationException.class, this::handleWebApplicationException)
             .toEither()
             .mapLeft(t -> new TechnicalFail("Unable to reverse search for addresses, an error occurred.", t));
@@ -46,10 +50,11 @@ public class AddressSearchAdapter implements AddressSearchSpi, AddressReverseSea
 
       if(response.hasEntity()) {
         return new TechnicalFail(
-                "An error occurred while calling partner base-adresse-nationale. Unable to properly handle response with body : " + response.readEntity(String.class), wae);
+                "An error occurred while calling partner base-adresse-nationale. Unable to properly handle response with code %s and body : %s"
+                        .formatted(response.getStatus(), response.readEntity(String.class)), wae);
       } else {
         return new TechnicalFail(
-                "An error occurred while calling partner base-adresse-nationale. Unable to properly handle response", wae);
+                "An error occurred while calling partner base-adresse-nationale. Unable to properly handle response with code : " + response.getStatus(), wae);
       }
     }
 

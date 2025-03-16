@@ -7,5 +7,9 @@ import io.vavr.control.Option;
 
 public interface AddressSearchSpi {
 
-  Either<MariFail, MariGeoCodeJsonFeatureCollection> search(String query, Option<Integer> postCode, Option<String> type);
+  Either<MariFail, MariGeoCodeJsonFeatureCollection> search(String correlationId,
+                                                            String query,
+                                                            Option<Integer> postCode,
+                                                            Option<String> type,
+                                                            Option<Integer> limit);
 }

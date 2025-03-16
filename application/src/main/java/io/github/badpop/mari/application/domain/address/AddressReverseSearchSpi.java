@@ -6,5 +6,5 @@ import io.vavr.control.Either;
 
 public interface AddressReverseSearchSpi {
 
-  Either<MariFail, MariGeoCodeJsonFeatureCollection> reverseSearch(double longitude, double latitude);
+  Either<MariFail, MariGeoCodeJsonFeatureCollection> reverseSearch(String correlationId, double longitude, double latitude);
 }

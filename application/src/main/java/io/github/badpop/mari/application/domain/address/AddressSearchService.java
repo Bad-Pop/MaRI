@@ -13,12 +13,16 @@ public class AddressSearchService implements AddressSearchApi {
   private final AddressReverseSearchSpi reverseFinderSpi;
 
   @Override
-  public Either<MariFail, MariGeoCodeJsonFeatureCollection> search(String query, Option<Integer> postCode, Option<String> type) {
-    return finderSpi.search(query, postCode, type);
+  public Either<MariFail, MariGeoCodeJsonFeatureCollection> search(String correlationId,
+                                                                   String query,
+                                                                   Option<Integer> postCode,
+                                                                   Option<String> type,
+                                                                   Option<Integer> limit) {
+    return finderSpi.search(correlationId, query, postCode, type, limit);
   }
 
   @Override
-  public Either<MariFail, MariGeoCodeJsonFeatureCollection> reverseSearch(double longitude, double latitude) {
-    return reverseFinderSpi.reverseSearch(longitude, latitude);
+  public Either<MariFail, MariGeoCodeJsonFeatureCollection> reverseSearch(String correlationId, double longitude, double latitude) {
+    return reverseFinderSpi.reverseSearch(correlationId, longitude, latitude);
   }
 }

@@ -8,7 +8,11 @@ import org.geojson.FeatureCollection;
 
 public interface AddressSearchApi {
 
-  Either<MariFail, MariGeoCodeJsonFeatureCollection> search(String query, Option<Integer> postCode, Option<String> type);
+  Either<MariFail, MariGeoCodeJsonFeatureCollection> search(String correlationId,
+                                                            String query,
+                                                            Option<Integer> postCode,
+                                                            Option<String> type,
+                                                            Option<Integer> limit);
 
-  Either<MariFail, MariGeoCodeJsonFeatureCollection> reverseSearch(double longitude, double latitude);
+  Either<MariFail, MariGeoCodeJsonFeatureCollection> reverseSearch(String correlationId, double longitude, double latitude);
 }
