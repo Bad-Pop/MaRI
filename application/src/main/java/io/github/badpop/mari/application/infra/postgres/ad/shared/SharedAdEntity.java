@@ -1,6 +1,5 @@
 package io.github.badpop.mari.application.infra.postgres.ad.shared;
 
-import io.github.badpop.mari.application.domain.ad.control.AdSharingParameters;
 import io.github.badpop.mari.application.domain.ad.model.shared.SharedAd;
 import io.github.badpop.mari.application.infra.postgres.MariEntityBase;
 import io.github.badpop.mari.application.infra.postgres.ad.AdEntity;
@@ -14,7 +13,6 @@ import org.hibernate.annotations.NaturalIdCache;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static io.vavr.API.Option;
 import static jakarta.persistence.FetchType.LAZY;
 import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
 
@@ -64,8 +62,4 @@ public class SharedAdEntity extends MariEntityBase<SharedAdEntity, SharedAd> {
   private boolean expires;
 
   private LocalDateTime expireAt;
-
-  public static SharedAdEntity from(UUID id, AdEntity ad, UserEntity user, AdSharingParameters parameters) {
-    return new SharedAdEntity(id, ad, user, parameters.expires(), parameters.expireAt().getOrNull());
-  }
 }

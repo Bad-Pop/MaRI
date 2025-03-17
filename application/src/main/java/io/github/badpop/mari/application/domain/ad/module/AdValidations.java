@@ -29,10 +29,10 @@ public interface AdValidations {
   static Validation<MariFail, Void> validateThatUpdateOperationsDoesNotContainsForbiddenOperations(Seq<UpdateOperation> operations) {
     val forbiddenOperations = Option(operations)
             .getOrElse(API::List)
-            .filter(operation -> operation.path().equalsIgnoreCase("/id"));
+            .filter(operation -> operation.path().equalsIgnoreCase("/id") || operation.path().contains("/address"));
 
     if(forbiddenOperations.nonEmpty()) {
-      return Invalid(new ForbiddenPatchOperationFail("id"));
+      return Invalid(new ForbiddenPatchOperationFail("id ou address"));
     }
     return Valid(null);
   }

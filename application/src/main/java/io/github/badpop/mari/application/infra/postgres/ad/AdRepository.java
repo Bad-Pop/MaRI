@@ -2,6 +2,7 @@ package io.github.badpop.mari.application.infra.postgres.ad;
 
 import io.github.badpop.mari.application.domain.ad.model.Ad;
 import io.github.badpop.mari.application.infra.postgres.MariRepositoryBase;
+import io.github.badpop.mari.application.infra.postgres.address.AddressEntity;
 import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Parameters;
@@ -36,5 +37,11 @@ public class AdRepository implements MariRepositoryBase<Ad, AdEntity> {
             .map(maybeAds -> maybeAds
                     .map(List::ofAll)
                     .getOrElse(API::List));
+  }
+
+  public Try<Integer> updateAddressByAdId(UUID id, AddressEntity addressEntity) {
+    return Try(() -> update(
+            "address = :address where id = :id",
+            Parameters.with("id", id).and("address", addressEntity)));
   }
 }

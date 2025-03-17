@@ -9,6 +9,7 @@ import io.github.badpop.mari.application.domain.ad.port.*;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdCreatorSpi;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdDeleterSpi;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdFinderSpi;
+import io.github.badpop.mari.application.domain.address.model.Address;
 import io.github.badpop.mari.application.domain.control.MariFail;
 import io.github.badpop.mari.application.domain.patch.UpdateOperation;
 import io.vavr.collection.Seq;
@@ -56,6 +57,11 @@ public class AdService implements AdApi {
     return validateThatUpdateOperationsDoesNotContainsForbiddenOperations(operations)
             .toEither()
             .flatMap(unused -> updaterSpi.updateAdById(id, operations));
+  }
+
+  @Override
+  public Either<MariFail, Ad> updateAdAddressById(UUID id, Address address) {
+    return updaterSpi.updateAdAddressById(id, address);
   }
 
   @Override

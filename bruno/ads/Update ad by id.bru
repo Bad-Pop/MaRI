@@ -11,7 +11,7 @@ patch {
 }
 
 params:path {
-  id: 4cb333de-071b-48a9-aad1-92855d8b90fd
+  id: 5f8720ea-1b0f-4aff-a760-01e66cc8c4e9
 }
 
 headers {
@@ -20,8 +20,8 @@ headers {
 
 body:json {
   [
-    {"op": "remove", "path": "/description", "value": "Test description with update 2"},
-    {"op": "remove", "path": "/remarks", "value": "Test remarks with update"},
+    {"op": "replace", "path": "/description", "value": "Test description with update 2"},
+    {"op": "replace", "path": "/remarks", "value": "Test remarks with update"},
     {"op": "replace", "path": "/price", "value": 190520.90}
   ]
 }

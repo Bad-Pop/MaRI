@@ -6,8 +6,10 @@ import io.github.badpop.mari.application.app.ad.model.AdCreationApiSchema;
 import io.github.badpop.mari.application.app.ad.model.shared.AdSharingParametersApiSchema;
 import io.github.badpop.mari.application.app.ad.model.shared.SharedAdApiSchema;
 import io.github.badpop.mari.application.app.ad.model.shared.SharedAdCreatedApiSchema;
+import io.github.badpop.mari.application.app.address.MariGeoCodeJsonFeatureMapper;
 import io.github.badpop.mari.application.app.model.UpdateOperationApiSchema;
 import io.github.badpop.mari.application.domain.ad.port.AdApi;
+import io.github.badpop.mari.libraries.geocodejson.MariGeoCodeJsonFeature;
 import io.quarkus.security.Authenticated;
 import io.vavr.collection.List;
 import jakarta.inject.Singleton;
@@ -70,6 +72,17 @@ public class AdResource {
                          @NotNull @NotEmpty java.util.List<UpdateOperationApiSchema> operations) {
     val domainOperations = List.ofAll(operations).map(UpdateOperationApiSchema::toDomain);
     return api.updateAdById(id, domainOperations)
+            .map(AdApiSchema::fromDomain)
+            .fold(ResponseBuilder::fail, ResponseBuilder::ok);
+  }
+
+  @PUT
+  @Path("/{id}/address")
+  public Response updateAddress(@HeaderParam(value = CORRELATION_ID) String correlationId,
+                                @PathParam("id") @NotNull UUID id,
+                                @NotNull MariGeoCodeJsonFeature addressFeature) {
+    val address = MariGeoCodeJsonFeatureMapper.toDomain(addressFeature);
+    return api.updateAdAddressById(id, address)
             .map(AdApiSchema::fromDomain)
             .fold(ResponseBuilder::fail, ResponseBuilder::ok);
   }

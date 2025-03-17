@@ -5,6 +5,7 @@ import io.github.badpop.mari.application.domain.ad.control.AdSharingParameters;
 import io.github.badpop.mari.application.domain.ad.model.Ad;
 import io.github.badpop.mari.application.domain.ad.model.shared.SharedAd;
 import io.github.badpop.mari.application.domain.ad.model.shared.SharedAdCreated;
+import io.github.badpop.mari.application.domain.address.model.Address;
 import io.github.badpop.mari.application.domain.control.MariFail;
 import io.github.badpop.mari.application.domain.patch.UpdateOperation;
 import io.vavr.collection.Seq;
@@ -22,6 +23,8 @@ public interface AdApi {
   Either<MariFail, Seq<Ad>> findAll();
 
   Either<MariFail, Ad> updateAdById(UUID id, Seq<UpdateOperation> operations);
+
+  Either<MariFail, Ad> updateAdAddressById(UUID id, Address address);
 
   Either<MariFail, Void> deleteAdById(UUID id);
 

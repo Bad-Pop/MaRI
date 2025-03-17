@@ -95,6 +95,10 @@ public sealed interface MariFail extends Fail {
     public Option<Throwable> cause() {
       return Option(causedBy);
     }
+
+    public static TechnicalFail of(String message) {
+      return new TechnicalFail(message, null);
+    }
   }
 
   record UnauthorizedFail() implements MariFail {

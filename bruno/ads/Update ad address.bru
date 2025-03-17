@@ -1,24 +1,21 @@
 meta {
-  name: Create ad
+  name: Update ad address
   type: http
-  seq: 1
+  seq: 9
 }
 
-post {
-  url: {{url}}/ads
+put {
+  url: {{url}}/ads/:id/address
   body: json
   auth: none
 }
 
+params:path {
+  id: 4550d51f-48cd-4dab-8ed1-a29657071555
+}
+
 body:json {
   {
-    "name": "Annonce de test 2",
-    "url": "https://mari.fr/ads/123456789",
-    "price": 150990.0,
-    "type": "SALE",
-    "description": null,
-    "remarks": null,
-    "address": {
         "type": "Feature",
         "geometry": {
           "type": "Point",
@@ -28,7 +25,7 @@ body:json {
           ]
         },
         "properties": {
-          "label": "26 Rue des Alouettes 44100 Nantes",
+          "label": "CHEZ TA GRAND MÈRE :p 3",
           "type": "housenumber",
           "name": "26 Rue des Alouettes",
           "postcode": 44100,
@@ -43,5 +40,4 @@ body:json {
           "_type": "address"
         }
       }
-  }
 }

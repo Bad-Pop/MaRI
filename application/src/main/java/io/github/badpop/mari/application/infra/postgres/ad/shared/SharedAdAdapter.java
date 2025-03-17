@@ -1,14 +1,11 @@
 package io.github.badpop.mari.application.infra.postgres.ad.shared;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.badpop.mari.application.domain.ad.control.AdSharingParameters;
 import io.github.badpop.mari.application.domain.ad.model.shared.SharedAd;
 import io.github.badpop.mari.application.domain.ad.model.shared.SharedAdCreated;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdCreatorSpi;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdDeleterSpi;
 import io.github.badpop.mari.application.domain.ad.port.shared.SharedAdFinderSpi;
-import io.github.badpop.mari.application.domain.address.model.Address;
 import io.github.badpop.mari.application.domain.control.MariFail;
 import io.github.badpop.mari.application.domain.control.MariFail.ExpiredSharedAdFail;
 import io.github.badpop.mari.application.domain.control.MariFail.InvalidRequestFail;
@@ -21,7 +18,6 @@ import io.github.badpop.mari.application.infra.postgres.user.UserEntity;
 import io.quarkus.logging.Log;
 import io.vavr.collection.Seq;
 import io.vavr.control.Either;
-import io.vavr.control.Option;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +35,6 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
   private final CurrentUserEntityProvider userEntityProvider;
   private final AdAdapter adAdapter;
   private final SharedAdRepository repository;
-  private final ObjectMapper objectMapper;
 
   @Override
   @Transactional
@@ -59,7 +54,7 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
   @Override
   public Either<MariFail, SharedAd> findById(UUID id) {
     return retrieveSharedAdEntityById(id)
-            .map(this::toDomain)
+            .map(SharedAdEntityMapper::toDomain)
             .peekLeft(fail -> Log.error(fail.asLog()));
   }
 
@@ -81,7 +76,7 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
   }
 
   private Either<MariFail, SharedAdCreated> persistSharedAd(UUID adId, AdEntity adEntity, UserEntity userEntity, AdSharingParameters parameters) {
-    val entity = SharedAdEntity.from(adId, adEntity, userEntity, parameters);
+    val entity = SharedAdEntityMapper.fromDomain(adId, adEntity, userEntity, parameters);
     return repository.persistIfAbsent(entity)
             .mapTry(persistedSharedAdEntity -> {
               /*
@@ -118,10 +113,10 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
             .toEither()
             .<MariFail>mapLeft(t -> new TechnicalFail("Unable to retrieve all shared ads for user with id=" + currentUserEntity.getId(), t))
             .flatMap(sharedAdEntities -> {
-              if(sharedAdEntities.isEmpty()) {
+              if (sharedAdEntities.isEmpty()) {
                 return Left(new ResourceNotFoundFail("Aucune annonce partagée."));
               } else {
-                return Right(sharedAdEntities.map(this::toDomain));
+                return Right(sharedAdEntities.map(SharedAdEntityMapper::toDomain));
               }
             });
   }
@@ -147,26 +142,6 @@ public class SharedAdAdapter implements SharedAdCreatorSpi, SharedAdFinderSpi, S
       return Right(null);
     } catch (Exception e) {
       return Left(new TechnicalFail("Unable to delete shared ad with id=" + sharedAdToDelete.getId(), e));
-    }
-  }
-
-  private SharedAd toDomain(SharedAdEntity entity) {
-    var adEntity = entity.getAd();
-    var adAddress = deserializeAddress(adEntity.getAddress());
-    var domainAd = adEntity.toDomain().withAddress(adAddress);
-    return new SharedAd(entity.getId(), domainAd, entity.isExpires(), Option(entity.getExpireAt()));
-  }
-
-  private Option<Address> deserializeAddress(String jsonAddress) {
-    if (jsonAddress == null) {
-      return None();
-    } else {
-      try {
-        var address = objectMapper.readValue(jsonAddress, Address.class);
-        return Option(address);
-      } catch (JsonProcessingException e) {
-        return None();
-      }
     }
   }
 }
