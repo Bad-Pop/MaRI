@@ -16,6 +16,15 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import static io.github.badpop.mari.application.app.MariHeaders.CORRELATION_ID;
 
+/**
+ * <li>
+ *   <ul>https://adresse.data.gouv.fr/ressources-et-documentations</ul>
+ *   <ul>https://doc.adresse.data.gouv.fr/</ul>
+ *   <ul>https://adresse.data.gouv.fr/outils/api-doc/adresse</ul>
+ *   <ul>https://www.data.gouv.fr/fr/dataservices/api-adresse-base-adresse-nationale-ban</ul>
+ *   <ul>https://github.com/BaseAdresseNationale/addok-docker#installer-une-instance-avec-les-donn%C3%A9es-de-la-base-adresse-nationale</ul>
+ * </li>
+ */
 @RegisterProvider(BanClient.BanClientLogger.class)
 @RegisterRestClient(configKey = "base-adresse-nationale")
 @RegisterProvider(value = DefaultMicroprofileRestClientExceptionMapper.class, priority = 5000)

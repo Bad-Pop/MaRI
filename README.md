@@ -13,7 +13,7 @@ une suite d'outils adaptés et utiles dans la phase recherches.
 | Partage d'annonces                                 | Partager des annonces à d'autres personnes non authentifiées                                           | 🟢            |
 | Calculer les mensualités d'un crédit               |                                                                                                        | 🟢            |
 | Calculer sa capacité d'emprunt                     |                                                                                                        | 🟢            |
-| Gestion d'adresses en GeoJson                      | Pouvoir gérer des adresses avec le standard GeoJson                                                    | 🟠            |
+| Gestion d'adresses françaises                      | Pouvoir gérer des adresses françaises dans MaRI                                                        | 🟢            |
 | Documentation OpenAPI                              | Mettre en place la documentation OpenAPI des ressources                                                | 🔴            |
 | Enrichir une annonce sauvegardée avec des critères | Permettre d'ajouter des critères à une annonce. ex : le mode de chauffage                              | 🔴            |
 | Extraire les données d'une annonce                 | Permettre de sauvegarder des annonces en extrayant leurs données depuis le site d'origine              | 🔴            |
