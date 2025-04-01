@@ -39,7 +39,7 @@
     <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 
     <compiler-plugin.version>3.14.0</compiler-plugin.version>
-    <surefire-plugin.version>3.5.2</surefire-plugin.version>
+    <surefire-plugin.version>3.5.3</surefire-plugin.version>
   </properties>
 
   <dependencyManagement>
