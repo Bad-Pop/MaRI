@@ -36,7 +36,7 @@
     <archunit-junit5.version>1.4.0</archunit-junit5.version>
     <hamcrest-json.version>0.3</hamcrest-json.version>
     <json-unit.version>4.1.0</json-unit.version>
-    <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
 
     <compiler-plugin.version>3.14.0</compiler-plugin.version>
     <surefire-plugin.version>3.5.2</surefire-plugin.version>
